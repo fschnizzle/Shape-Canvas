@@ -57,12 +57,12 @@ public class DrawingCanvas {
         this.bgChar = bgChar;
     }
 
+    // Default background character if none given
     public void setBgChar() {
-        this.bgChar = '-'; // Default background character
+        this.bgChar = '-';
     }
 
-    // canvasString() method. Creates the character string that visualises an empty
-    // canvas.
+    // Creates the character string that visualises an empty canvas.
     public String canvasString() {
         String Canvas = ""; // Initialise empty canvas string
 
@@ -70,10 +70,37 @@ public class DrawingCanvas {
         for (int y = 0; y < height; y++) {
             // Add to canvas char by char
             for (int x = 0; x < width; x++) {
-                Canvas = Canvas + bgChar;
+                Canvas += bgChar;
             }
             // Move to next line
-            Canvas = Canvas + "\n";
+            Canvas += "\n";
+        }
+
+        return Canvas;
+    }
+
+    // Creates the character string that visualises a canvas with a triangle
+    public String canvasString(Triangle triangle, int startX, int startY) {
+        String Canvas = ""; // Initialise empty canvas string
+        int fromX = startX;
+        int fromY = startY;
+
+        // Add to canvas row by row
+        int printX = triangle.getSideLength();
+        for (int y = 0; y < height; y++) {
+            // Add to canvas char by char
+            for (int x = 0; x < width; x++) {
+                if ((y >= fromY && y < fromY + triangle.getSideLength())
+                        && (x >= fromX && x < fromX + printX)) {
+                    Canvas += triangle.getPChar();
+
+                } else {
+                    Canvas += bgChar;
+                }
+            }
+            printX--;
+            // Move to next line
+            Canvas += "\n";
         }
 
         return Canvas;

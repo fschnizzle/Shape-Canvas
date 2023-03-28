@@ -61,9 +61,11 @@ public class Triangle {
         return triangleString;
     }
 
-    public void TriangleInputs() {
+    public void TriangleInputs(DrawingCanvas canvas) {
 
         String selection = "Y";
+        int displaceX = 0;
+        int displaceY = 0;
 
         while (selection.toUpperCase().equals("Y")) {
             System.out.print("Side length: ");
@@ -75,8 +77,9 @@ public class Triangle {
             selection = "Y";
             while (selection.toUpperCase().equals("Y") || selection.toUpperCase().equals("Z")
                     || selection.toUpperCase().equals("M")) {
-                System.out.print(this.TriangleString()); // REPLACE with call to DrawingCanvas.displayShape(Triangle)
-                                                         // method
+                System.out.print(canvas.canvasString(this, displaceX, displaceY)); // REPLACE with call to
+                // DrawingCanvas.displayShape(Triangle)
+                // method
                 System.out.println("Type Z/M for zooming/moving. Use other keys to quit the Zooming/Moving mode.");
                 selection = keyboard.nextLine();
                 switch (selection) {
