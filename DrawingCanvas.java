@@ -91,7 +91,7 @@ public class DrawingCanvas {
             // Add to canvas char by char
             for (int x = 0; x < width; x++) {
                 if ((y >= fromY && y < fromY + triangle.getSideLength())
-                        && (x >= fromX && x < fromX + printX)) {
+                        && (x >= fromX && x < fromX + printX + fromY)) {
                     Canvas += triangle.getPChar();
 
                 } else {

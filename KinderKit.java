@@ -17,10 +17,15 @@ public class KinderKit {
 
         System.out.println( // Display initial settings based on command line inputs
                 String.format("- Width: %d\n- Height: %d\n- Background character: -", canvasWidth, canvasHeight));
+        System.out.println("\n");
 
         // Display Main Menu
         Scanner keyboard = new Scanner(System.in);
         boolean exitMenu = false;
+
+        // Initialise Canvas
+        DrawingCanvas canvas = new DrawingCanvas(canvasWidth, canvasHeight);
+
         while (!exitMenu) {
             // Prompts user for menu selection
             System.out.println("Please select an option. Type 4 to exit.\n" +
@@ -33,6 +38,9 @@ public class KinderKit {
             switch (menuCase) {
                 case 1:
                     // Draw Triangle
+                    Triangle t1 = new Triangle();
+                    t1.TriangleInputs(canvas);
+                    // System.out.println(t1.TriangleString());
                 case 2:
                     // Draw Rectangle
                 case 3:
@@ -40,6 +48,8 @@ public class KinderKit {
                 case 4:
                     exitMenu = true;
                     break;
+                default:
+                    System.out.println("Unsupported option. Please try again!");
             }
             // System.out.println("Selected: " + menuCase); // Debugging purposes
 
