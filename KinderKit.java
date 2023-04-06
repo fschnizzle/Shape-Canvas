@@ -44,6 +44,8 @@ public class KinderKit {
                     t1.TriangleInputs(canvas);
                     // System.out.println(t1.TriangleString());
                 case 2:
+                    Rectangle r1 = new Rectangle();
+                    r1.RectangleInputs(canvas);
                     // Draw Rectangle
                 case 3:
                     // Update Canvas Settings

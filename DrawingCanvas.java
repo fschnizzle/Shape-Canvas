@@ -106,4 +106,30 @@ public class DrawingCanvas {
         return Canvas;
     }
 
+    // Creates the character string that visualises a canvas with a triangle
+    public String canvasString(Rectangle rectangle) {
+        String Canvas = ""; // Initialise empty canvas string
+        int fromX = rectangle.getXPosition();
+        int fromY = rectangle.getYPosition();
+
+        // Add to canvas row by row
+        int printX = rectangle.getWidth();
+        for (int y = 0; y < height; y++) {
+            // Add to canvas char by char
+            for (int x = 0; x < width; x++) {
+                if ((y >= fromY && y < fromY + rectangle.getHeight())
+                        && (x >= fromX && x < fromX + rectangle.getWidth())) {
+                    Canvas += rectangle.getPChar();
+
+                } else {
+                    Canvas += bgChar;
+                }
+            }
+            // Move to next line
+            Canvas += "\n";
+        }
+
+        return Canvas;
+    }
+
 }
