@@ -11,12 +11,14 @@ public class KinderKit {
         // Initialise command line settings
         int canvasWidth = Integer.parseInt(args[0]);
         int canvasHeight = Integer.parseInt(args[1]);
+        char bgChar = args[2].charAt(0);
 
         // Display Welcome Message
         System.out.println("----DIGITAL KINDER KIT: LET'S PLAY & LEARN----\n" + "Current drawing canvas settings:");
 
         System.out.println( // Display initial settings based on command line inputs
-                String.format("- Width: %d\n- Height: %d\n- Background character: -", canvasWidth, canvasHeight));
+                String.format("- Width: %d\n- Height: %d\n- Background character: %c", canvasWidth, canvasHeight,
+                        bgChar));
         System.out.println("\n");
 
         // Display Main Menu
@@ -24,7 +26,7 @@ public class KinderKit {
         boolean exitMenu = false;
 
         // Initialise Canvas
-        DrawingCanvas canvas = new DrawingCanvas(canvasWidth, canvasHeight);
+        DrawingCanvas canvas = new DrawingCanvas(canvasWidth, canvasHeight, bgChar);
 
         while (!exitMenu) {
             // Prompts user for menu selection

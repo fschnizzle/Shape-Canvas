@@ -72,8 +72,6 @@ public class Triangle {
         while (selection.equals("a") || selection.equals("s")
                 || selection.equals("w") || selection.equals("z")) {
             //
-            // int displaceX = getXPosition();
-            // int displaceY
             this.setXPosition(displaceX);
             this.setYPosition(displaceY);
             System.out.print(canvas.canvasString(this));
@@ -107,6 +105,40 @@ public class Triangle {
                         System.out.println("You cannot move this triangle outside of the drawing canvas!");
                     } else {
                         displaceY++;
+                    }
+                    break;
+                default:
+            }
+
+        }
+
+    }
+
+    public void zoomTriangle(DrawingCanvas canvas, int displaceX, int displaceY) {
+
+        String selection = "i";
+        while (selection.equals("i") || selection.equals("o")) {
+            //
+            this.setXPosition(displaceX);
+            this.setYPosition(displaceY);
+            System.out.print(canvas.canvasString(this));
+            System.out.println(
+                    "Type I/O to zoom in/out. Use other keys to go back to the Zooming/Moving menu.");
+            selection = keyboard.nextLine();
+            switch (selection.toLowerCase()) {
+                case "o":
+                    if (displaceX + this.getSideLength() == canvas.getWidth()
+                            || displaceY + this.getSideLength() == canvas.getHeight()) {
+                        System.out.println("This triangle reaches its limit. You cannot make it bigger!!");
+                    } else {
+                        this.setSideLength(this.getSideLength() + 1);
+                    }
+                    break;
+                case "i":
+                    if (this.getSideLength() == 1) {
+                        System.out.println("This triangle reaches its limit. You cannot make it smaller!");
+                    } else {
+                        this.setSideLength(this.getSideLength() - 1);
                     }
                     break;
                 default:
@@ -151,19 +183,19 @@ public class Triangle {
                 // Display Canvas with Triangle
 
                 System.out.print(canvas.canvasString(this));
-                System.out.println("me");
 
                 // Prompt user for Zoom / Move controls
                 System.out.println("Type Z/M for zooming/moving. Use other keys to quit the Zooming/Moving mode.");
                 selection = keyboard.nextLine();
                 switch (selection.toLowerCase()) {
                     case "m":
-                        System.out.println("MOVE TRIANGLE SELECTED");
+                        // System.out.println("MOVE TRIANGLE SELECTED");
                         moveTriangle(canvas, displaceX, displaceY);
                         // Implement MOVE method
                         break;
                     case "z":
                         System.out.println("ZOOM IN OR OUT SELECTED");
+                        zoomTriangle(canvas, displaceX, displaceY);
                         // Implement Zoom method
                         break;
                     default:
