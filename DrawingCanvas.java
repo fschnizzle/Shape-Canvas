@@ -1,45 +1,35 @@
 import java.util.Scanner;
 
 public class DrawingCanvas {
-    // Instance Variables
-    private int width;
-    private int height;
-    private char bgChar;
-    private Scanner keyboard;
+    private int width; // width of the canvas
+    private int height; // height of the canvas
+    private char bgChar; // background character for the canvas
+    private Scanner keyboard; // scanner to read input from keyboard
 
-    // Constructors
+    // Constructor with all parameters
     public DrawingCanvas(int width, int height, char bgChar, Scanner kboard) {
         setWidth(width);
         setHeight(height);
         setBgChar(bgChar);
-
         this.keyboard = kboard;
-
-        String canvas = canvasString();
     }
 
-    public DrawingCanvas(int width, int height) {
-        setWidth(width);
-        setHeight(height);
-        setBgChar();
-
-        String canvas = canvasString();
-    }
-
-    // Accessors
+    // Accessor method for the width
     public int getWidth() {
         return width;
     }
 
+    // Accessor method for the height
     public int getHeight() {
         return height;
     }
 
+    // Accessor method for the background character
     public char getBgChar() {
         return bgChar;
     }
 
-    // Mutators
+    // Mutator method for the width
     public void setWidth(int width) {
         if (width >= 0) {
             this.width = width;
@@ -48,6 +38,7 @@ public class DrawingCanvas {
         }
     }
 
+    // Mutator method for the height
     public void setHeight(int height) {
         if (height >= 0) {
             this.height = height;
@@ -56,35 +47,31 @@ public class DrawingCanvas {
         }
     }
 
+    // Mutator method for the background character
     public void setBgChar(char bgChar) {
         this.bgChar = bgChar;
     }
 
-    // Default background character if none given
-    public void setBgChar() {
-        this.bgChar = '-';
-    }
-
     // Creates the character string that visualises an empty canvas.
     public String canvasString() {
-        String Canvas = ""; // Initialise empty canvas string
+        String canvas = ""; // Initialise empty canvas string
 
         // Add to canvas row by row
         for (int y = 0; y < height; y++) {
             // Add to canvas char by char
             for (int x = 0; x < width; x++) {
-                Canvas += bgChar;
+                canvas += bgChar;
             }
             // Move to next line
-            Canvas += "\n";
+            canvas += "\n";
         }
 
-        return Canvas;
+        return canvas;
     }
 
     // Creates the character string that visualises a canvas with a triangle
     public String canvasString(Triangle triangle) {
-        String Canvas = ""; // Initialise empty canvas string
+        String canvas = ""; // Initialise empty canvas string
         int fromX = triangle.getXPosition();
         int fromY = triangle.getYPosition();
 
@@ -95,48 +82,47 @@ public class DrawingCanvas {
             for (int x = 0; x < width; x++) {
                 if ((y >= fromY && y < fromY + triangle.getSideLength())
                         && (x >= fromX && x < fromX + printX + fromY)) {
-                    Canvas += triangle.getPChar();
-
+                    canvas += triangle.getPChar();
                 } else {
-                    Canvas += bgChar;
+                    canvas += bgChar;
                 }
             }
-            printX--;
-            // Move to next line
-            Canvas += "\n";
+            printX--; // Ensures each row is shorter by one (to create triangle)
+            canvas += "\n"; // Move to next line
         }
 
-        return Canvas;
+        return canvas;
     }
 
-    // Creates the character string that visualises a canvas with a triangle
+    // Creates the character string that visualises a canvas with a rectangle
     public String canvasString(Rectangle rectangle) {
-        String Canvas = ""; // Initialise empty canvas string
+        String canvas = ""; // Initialise empty canvas string
         int fromX = rectangle.getXPosition();
         int fromY = rectangle.getYPosition();
 
         // Add to canvas row by row
-        int printX = rectangle.getWidth();
         for (int y = 0; y < height; y++) {
+            int printX = rectangle.getWidth();
             // Add to canvas char by char
             for (int x = 0; x < width; x++) {
                 if ((y >= fromY && y < fromY + rectangle.getHeight())
                         && (x >= fromX && x < fromX + rectangle.getWidth())) {
-                    Canvas += rectangle.getPChar();
-
+                    canvas += rectangle.getPChar();
                 } else {
-                    Canvas += bgChar;
+                    canvas += bgChar;
                 }
+                printX--;
             }
             // Move to next line
-            Canvas += "\n";
+            canvas += "\n";
         }
 
-        return Canvas;
+        return canvas;
     }
 
     public void updateSettings() {
 
+        // Prompt the user to enter the new canvas settings
         System.out.print("Canvas width: ");
         setWidth(Integer.parseInt(keyboard.nextLine()));
         System.out.print("Canvas height: ");
@@ -144,14 +130,16 @@ public class DrawingCanvas {
         System.out.print("Background character: ");
         setBgChar(keyboard.nextLine().charAt(0));
 
+        // Notify the user that the canvas settings have been updated
         System.out.println("Drawing canvas has been updated!\n");
 
+        // Display the current canvas settings
         System.out.println("Current drawing canvas settings:");
 
-        System.out.println( // Display initial settings based on command line inputs
-                String.format("- Width: %d\n- Height: %d\n- Background character: %c\n", this.getWidth(),
-                        this.getHeight(), this.getBgChar()));
-
+        // Use String.format to display the current canvas settings
+        System.out.println(
+                String.format("- Width: %d\n- Height: %d\n- Background character: %c\n",
+                        this.getWidth(), this.getHeight(), this.getBgChar()));
     }
 
 }
