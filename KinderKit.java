@@ -1,26 +1,36 @@
 import java.util.Scanner;
 
 /**
- * COMP90041, Sem1, 2023: Assignment 1
- * Date: 27/03/23
+ * COMP90041 Semester 1, 2023: Assignment 1
  * 
- * @author: Flynn Schneider
+ * This program is a digital kinder kit that allows users to draw triangles and
+ * rectangles on a canvas,
+ * and update the canvas settings. The program takes command line arguments for
+ * the canvas width, height,
+ * and background character.
+ * 
+ * @author Flynn
  */
 public class KinderKit {
     public static void main(String[] args) {
-        // Initialise command line settings
+        // Check for correct number of command line arguments
+        if (args.length != 3) {
+            System.out
+                    .println("Error: Invalid number of arguments. Usage: java KinderKit <width> <height> <background>");
+            return;
+        }
+
+        // Parse command line arguments
         int canvasWidth = Integer.parseInt(args[0]);
         int canvasHeight = Integer.parseInt(args[1]);
         char bgChar = args[2].charAt(0);
 
         Scanner keyboard = new Scanner(System.in);
 
-        // Display Welcome Message
-        System.out.println("----DIGITAL KINDER KIT: LET'S PLAY & LEARN----\n" + "Current drawing canvas settings:");
-
-        System.out.println( // Display initial settings based on command line inputs
-                String.format("- Width: %d\n- Height: %d\n- Background character: %c\n", canvasWidth, canvasHeight,
-                        bgChar));
+        // Display Welcome Message and initial canvas settings
+        System.out.println("----DIGITAL KINDER KIT: LET'S PLAY & LEARN----\nCurrent drawing canvas settings:");
+        System.out.printf("- Width: %d\n- Height: %d\n- Background character: %c\n\n", canvasWidth, canvasHeight,
+                bgChar);
 
         // Display Main Menu
         boolean exitMenu = false;
@@ -41,24 +51,29 @@ public class KinderKit {
                 case 1:
                     // Draw Triangle
                     Triangle t1 = new Triangle(keyboard);
-                    t1.TriangleInputs(canvas);
+                    t1.triangleInputs(canvas);
                     break;
                 case 2:
+                    // Draw Rectangle
                     Rectangle r1 = new Rectangle(keyboard);
-                    r1.RectangleInputs(canvas);
+                    r1.rectangleInputs(canvas);
                     break;
                 case 3:
+                    // Update canvas settings
                     canvas.updateSettings();
                     break;
                 case 4:
+                    // Exit program
                     exitMenu = true;
                     break;
                 default:
+                    // Invalid menu option
                     System.out.println("Unsupported option. Please try again!");
             }
 
         }
-        System.out.println("Goodbye! We hope you had fun :)");
 
+        // Exit message
+        System.out.println("Goodbye! We hope you had fun :)");
     }
 }
