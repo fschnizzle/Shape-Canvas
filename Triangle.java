@@ -1,18 +1,20 @@
 import java.util.Scanner;
 
 public class Triangle {
-    Scanner keyboard = new Scanner(System.in);
+    // Scanner keyboard = new Scanner(System.in);
 
     // Instance Variables
     private int sideLength;
     private char pChar; // Printing Character
     private int xPosition;
     private int yPosition;
+    private Scanner keyboard;
 
     // Constructors
-    public Triangle() {
+    public Triangle(Scanner kboard) {
         setSideLength();
         setPChar();
+        this.keyboard = kboard;
     }
 
     public Triangle(int sideLength) {
@@ -87,7 +89,7 @@ public class Triangle {
                     }
                     break;
                 case "s":
-                    if (displaceX + this.sideLength == canvas.getWidth()) {
+                    if (displaceX + this.getSideLength() == canvas.getWidth()) {
                         System.out.println("You cannot move this triangle outside of the drawing canvas!");
                     } else {
                         displaceX++;
@@ -101,7 +103,7 @@ public class Triangle {
                     }
                     break;
                 case "z":
-                    if (displaceY + this.sideLength == canvas.getHeight()) {
+                    if (displaceY + this.getSideLength() == canvas.getHeight()) {
                         System.out.println("You cannot move this triangle outside of the drawing canvas!");
                     } else {
                         displaceY++;
@@ -159,9 +161,9 @@ public class Triangle {
 
             // Triangle properties prompt and error detection
             do {
-                System.out.print("Side length: ");
+                System.out.print("Side length:\n");
                 setSideLength(Integer.parseInt(keyboard.nextLine()));
-                System.out.print("Printing character: ");
+                System.out.print("Printing character:\n");
                 setPChar(keyboard.nextLine().charAt(0));
 
                 if (sideLength > canvas.getHeight() || sideLength > canvas.getWidth()) {

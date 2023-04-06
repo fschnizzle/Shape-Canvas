@@ -13,20 +13,20 @@ public class KinderKit {
         int canvasHeight = Integer.parseInt(args[1]);
         char bgChar = args[2].charAt(0);
 
+        Scanner keyboard = new Scanner(System.in);
+
         // Display Welcome Message
         System.out.println("----DIGITAL KINDER KIT: LET'S PLAY & LEARN----\n" + "Current drawing canvas settings:");
 
         System.out.println( // Display initial settings based on command line inputs
-                String.format("- Width: %d\n- Height: %d\n- Background character: %c", canvasWidth, canvasHeight,
+                String.format("- Width: %d\n- Height: %d\n- Background character: %c\n", canvasWidth, canvasHeight,
                         bgChar));
-        System.out.println("\n");
 
         // Display Main Menu
-        Scanner keyboard = new Scanner(System.in);
         boolean exitMenu = false;
 
         // Initialise Canvas
-        DrawingCanvas canvas = new DrawingCanvas(canvasWidth, canvasHeight, bgChar);
+        DrawingCanvas canvas = new DrawingCanvas(canvasWidth, canvasHeight, bgChar, keyboard);
 
         while (!exitMenu) {
             // Prompts user for menu selection
@@ -40,24 +40,25 @@ public class KinderKit {
             switch (menuCase) {
                 case 1:
                     // Draw Triangle
-                    Triangle t1 = new Triangle();
+                    Triangle t1 = new Triangle(keyboard);
                     t1.TriangleInputs(canvas);
-                    // System.out.println(t1.TriangleString());
+                    break;
                 case 2:
-                    Rectangle r1 = new Rectangle();
+                    Rectangle r1 = new Rectangle(keyboard);
                     r1.RectangleInputs(canvas);
-                    // Draw Rectangle
+                    break;
                 case 3:
-                    // Update Canvas Settings
+                    canvas.updateSettings();
+                    break;
                 case 4:
                     exitMenu = true;
                     break;
                 default:
                     System.out.println("Unsupported option. Please try again!");
             }
-            // System.out.println("Selected: " + menuCase); // Debugging purposes
 
         }
+        System.out.println("Goodbye! We hope you had fun :)");
 
     }
 }

@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Rectangle {
-    Scanner keyboard = new Scanner(System.in);
+    // Scanner keyboard = new Scanner(System.in);
 
     // Instance Variables
     private int height;
@@ -9,12 +9,14 @@ public class Rectangle {
     private char pChar;
     private int xPosition;
     private int yPosition;
+    private Scanner keyboard;
 
     // Constructors
-    public Rectangle() {
+    public Rectangle(Scanner kboard) {
         setHeight();
         setWidth();
         setPChar();
+        this.keyboard = kboard;
     }
 
     public Rectangle(int height, int width, char pChar) {
@@ -182,11 +184,11 @@ public class Rectangle {
 
             // Rectangle properties prompt and error detection
             do {
-                System.out.print("Height: ");
-                setHeight(Integer.parseInt(keyboard.nextLine()));
-                System.out.print("Width: ");
+                System.out.print("width:\n");
                 setWidth(Integer.parseInt(keyboard.nextLine()));
-                System.out.print("Printing character: ");
+                System.out.print("height:\n");
+                setHeight(Integer.parseInt(keyboard.nextLine()));
+                System.out.print("Printing character:\n");
                 setPChar(keyboard.nextLine().charAt(0));
 
                 if (this.getHeight() > canvas.getHeight()) {
