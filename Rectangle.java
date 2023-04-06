@@ -183,26 +183,35 @@ public class Rectangle {
             int displaceY = 0;
 
             // Rectangle properties prompt and error detection
+            // Check width
             do {
                 System.out.print("width:\n");
                 setWidth(Integer.parseInt(keyboard.nextLine()));
+                if (this.getWidth() > canvas.getWidth()) {
+                    System.out.println(String.format(
+                            "Error! The width is too large (Current canvas size is %dx%d). Please try again.",
+                            canvas.getWidth(), canvas.getWidth()));
+                }
+
+            } while (this.getWidth() > canvas.getWidth());
+
+            // Check height
+            do {
                 System.out.print("height:\n");
                 setHeight(Integer.parseInt(keyboard.nextLine()));
-                System.out.print("Printing character:\n");
-                setPChar(keyboard.nextLine().charAt(0));
-
                 if (this.getHeight() > canvas.getHeight()) {
                     System.out.println(String.format(
                             "Error! The height is too large (Current canvas size is %dx%d). Please try again.",
-                            canvas.getWidth(), canvas.getHeight()));
-                } else if (this.getWidth() > canvas.getWidth()) {
-                    System.out.println(String.format(
-                            "Error! The width is too large (Current canvas size is %dx%d). Please try again.",
-                            canvas.getWidth(), canvas.getHeight()));
+                            canvas.getHeight(), canvas.getHeight()));
                 }
-                this.setXPosition(displaceX);
-                this.setYPosition(displaceY);
-            } while (this.getHeight() > canvas.getHeight() || this.getWidth() > canvas.getWidth());
+
+            } while (this.getHeight() > canvas.getHeight());
+
+            this.setXPosition(displaceX);
+            this.setYPosition(displaceY);
+
+            System.out.print("Printing character:\n");
+            setPChar(keyboard.nextLine().charAt(0));
 
             // Zoom and Move display / prompt loop
             selection = "Y";

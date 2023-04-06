@@ -44,7 +44,7 @@ public class Triangle {
         if (sideLength > 0) {
             this.sideLength = sideLength;
         } else {
-            System.err.println("Error! Side lengthust be postive");
+            System.err.println("Error! Side length must be postive");
         }
     }
 
@@ -159,21 +159,22 @@ public class Triangle {
             int displaceX = 0;
             int displaceY = 0;
 
-            // Triangle properties prompt and error detection
+            // Triangle Sidelength prompt / error detection
             do {
                 System.out.print("Side length:\n");
                 setSideLength(Integer.parseInt(keyboard.nextLine()));
-                System.out.print("Printing character:\n");
-                setPChar(keyboard.nextLine().charAt(0));
 
                 if (sideLength > canvas.getHeight() || sideLength > canvas.getWidth()) {
                     System.out.println(String.format(
                             "Error! The side length is too long (Current canvas size is %dx%d). Please try again.",
                             canvas.getWidth(), canvas.getHeight()));
                 }
-                this.setXPosition(displaceX);
-                this.setYPosition(displaceY);
+
             } while (sideLength > canvas.getHeight() || sideLength > canvas.getWidth());
+            System.out.print("Printing character:\n");
+            setPChar(keyboard.nextLine().charAt(0));
+            this.setXPosition(displaceX);
+            this.setYPosition(displaceY);
 
             // Zoom and Move display / prompt loop
             selection = "Y";
