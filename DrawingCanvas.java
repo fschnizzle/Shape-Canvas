@@ -80,10 +80,10 @@ public class DrawingCanvas {
     }
 
     // Creates the character string that visualises a canvas with a triangle
-    public String canvasString(Triangle triangle, int startX, int startY) {
+    public String canvasString(Triangle triangle) {
         String Canvas = ""; // Initialise empty canvas string
-        int fromX = startX;
-        int fromY = startY;
+        int fromX = triangle.getXPosition();
+        int fromY = triangle.getYPosition();
 
         // Add to canvas row by row
         int printX = triangle.getSideLength();

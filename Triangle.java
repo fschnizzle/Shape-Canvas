@@ -6,6 +6,8 @@ public class Triangle {
     // Instance Variables
     private int sideLength;
     private char pChar; // Printing Character
+    private int xPosition;
+    private int yPosition;
 
     // Constructors
     public Triangle() {
@@ -25,6 +27,14 @@ public class Triangle {
 
     public char getPChar() {
         return pChar;
+    }
+
+    public int getXPosition() {
+        return xPosition;
+    }
+
+    public int getYPosition() {
+        return yPosition;
     }
 
     // Mutators
@@ -48,25 +58,25 @@ public class Triangle {
         this.pChar = '*';
     }
 
-    // Methods
-    // public String TriangleString() {
-    // int startX = 0;
-    // int startY = 0;
-    // String triangleString = "";
-    // for (int y = sideLength + startY; y > startY; y--) {
-    // for (int x = y; x > startX; x--) {
-    // triangleString += pChar;
-    // }
-    // triangleString += '\n';
-    // }
+    public void setXPosition(int xPosition) {
+        this.xPosition = xPosition;
+    }
 
-    // return triangleString;
-    // }
+    public void setYPosition(int yPosition) {
+        this.yPosition = yPosition;
+    }
 
     public void moveTriangle(DrawingCanvas canvas, int displaceX, int displaceY) {
+
         String selection = "a";
         while (selection.equals("a") || selection.equals("s")
                 || selection.equals("w") || selection.equals("z")) {
+            //
+            // int displaceX = getXPosition();
+            // int displaceY
+            this.setXPosition(displaceX);
+            this.setYPosition(displaceY);
+            System.out.print(canvas.canvasString(this));
             System.out.println(
                     "Type A/S/W/Z to move left/right/up/down. Use other keys to go back to the Zooming/Moving menu.");
             selection = keyboard.nextLine();
@@ -101,7 +111,6 @@ public class Triangle {
                     break;
                 default:
             }
-            System.out.print(canvas.canvasString(this, displaceX, displaceY));
 
         }
 
@@ -128,6 +137,8 @@ public class Triangle {
                             "Error! The side length is too long (Current canvas size is %dx%d). Please try again.",
                             canvas.getWidth(), canvas.getHeight()));
                 }
+                this.setXPosition(displaceX);
+                this.setYPosition(displaceY);
             } while (sideLength > canvas.getHeight() || sideLength > canvas.getWidth());
 
             // Zoom and Move display / prompt loop
@@ -135,8 +146,12 @@ public class Triangle {
             while (selection.toUpperCase().equals("Y") || selection.toUpperCase().equals("Z")
                     || selection.toUpperCase().equals("M")) {
 
+                displaceX = this.getXPosition();
+                displaceY = this.getYPosition();
                 // Display Canvas with Triangle
-                System.out.print(canvas.canvasString(this, displaceX, displaceY));
+
+                System.out.print(canvas.canvasString(this));
+                System.out.println("me");
 
                 // Prompt user for Zoom / Move controls
                 System.out.println("Type Z/M for zooming/moving. Use other keys to quit the Zooming/Moving mode.");
