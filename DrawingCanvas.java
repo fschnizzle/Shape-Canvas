@@ -141,17 +141,16 @@ public class DrawingCanvas {
         setWidth(Integer.parseInt(keyboard.nextLine()));
         System.out.print("Canvas height: ");
         setHeight(Integer.parseInt(keyboard.nextLine()));
-        System.out.print("Background Character: ");
+        System.out.print("Background character: ");
         setBgChar(keyboard.nextLine().charAt(0));
 
-        System.out.print("Drawing canvas has been updated! ");
+        System.out.println("Drawing canvas has been updated!\n");
 
         System.out.println("Current drawing canvas settings:");
 
         System.out.println( // Display initial settings based on command line inputs
-                String.format("- Width: %d\n- Height: %d\n- Background character: %c", this.getWidth(),
+                String.format("- Width: %d\n- Height: %d\n- Background character: %c\n", this.getWidth(),
                         this.getHeight(), this.getBgChar()));
-        System.out.println("\n");
 
     }
 

@@ -128,15 +128,15 @@ public class Triangle {
                     "Type I/O to zoom in/out. Use other keys to go back to the Zooming/Moving menu.");
             selection = keyboard.nextLine();
             switch (selection.toLowerCase()) {
-                case "o":
+                case "i":
                     if (displaceX + this.getSideLength() == canvas.getWidth()
                             || displaceY + this.getSideLength() == canvas.getHeight()) {
-                        System.out.println("This triangle reaches its limit. You cannot make it bigger!!");
+                        System.out.println("This triangle reaches its limit. You cannot make it bigger!");
                     } else {
                         this.setSideLength(this.getSideLength() + 1);
                     }
                     break;
-                case "i":
+                case "o":
                     if (this.getSideLength() == 1) {
                         System.out.println("This triangle reaches its limit. You cannot make it smaller!");
                     } else {
@@ -197,7 +197,6 @@ public class Triangle {
                         // Implement MOVE method
                         break;
                     case "z":
-                        System.out.println("ZOOM IN OR OUT SELECTED");
                         zoomTriangle(canvas, displaceX, displaceY);
                         // Implement Zoom method
                         break;

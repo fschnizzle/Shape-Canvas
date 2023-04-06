@@ -104,28 +104,28 @@ public class Rectangle {
             switch (selection.toLowerCase()) {
                 case "a":
                     if (displaceX == 0) {
-                        System.out.println("You cannot move this triangle outside of the drawing canvas!");
+                        System.out.println("You cannot move this rectangle outside of the drawing canvas!");
                     } else {
                         displaceX--;
                     }
                     break;
                 case "s":
                     if (displaceX + this.getWidth() == canvas.getWidth()) {
-                        System.out.println("You cannot move this triangle outside of the drawing canvas!");
+                        System.out.println("You cannot move this rectangle outside of the drawing canvas!");
                     } else {
                         displaceX++;
                     }
                     break;
                 case "w":
                     if (displaceY == 0) {
-                        System.out.println("You cannot move this triangle outside of the drawing canvas!");
+                        System.out.println("You cannot move this rectangle outside of the drawing canvas!");
                     } else {
                         displaceY--;
                     }
                     break;
                 case "z":
                     if (displaceY + this.getHeight() == canvas.getHeight()) {
-                        System.out.println("You cannot move this triangle outside of the drawing canvas!");
+                        System.out.println("You cannot move this rectangle outside of the drawing canvas!");
                     } else {
                         displaceY++;
                     }
@@ -149,18 +149,18 @@ public class Rectangle {
                     "Type I/O to zoom in/out. Use other keys to go back to the Zooming/Moving menu.");
             selection = keyboard.nextLine();
             switch (selection.toLowerCase()) {
-                case "o":
+                case "i":
                     if (displaceX + this.getWidth() == canvas.getWidth()
                             || displaceY + this.getHeight() == canvas.getHeight()) {
-                        System.out.println("This triangle reaches its limit. You cannot make it bigger!!");
+                        System.out.println("This rectangle reaches its limit. You cannot make it bigger!");
                     } else {
                         this.setHeight(this.getHeight() + 1);
                         this.setWidth(this.getWidth() + 1);
                     }
                     break;
-                case "i":
+                case "o":
                     if (this.getHeight() == 1 || this.getWidth() == 1) {
-                        System.out.println("This triangle reaches its limit. You cannot make it smaller!");
+                        System.out.println("This rectangle reaches its limit. You cannot make it smaller!");
                     } else {
                         this.setHeight(this.getHeight() - 1);
                         this.setWidth(this.getWidth() - 1);
@@ -190,7 +190,7 @@ public class Rectangle {
                 if (this.getWidth() > canvas.getWidth()) {
                     System.out.println(String.format(
                             "Error! The width is too large (Current canvas size is %dx%d). Please try again.",
-                            canvas.getWidth(), canvas.getWidth()));
+                            canvas.getWidth(), canvas.getHeight()));
                 }
 
             } while (this.getWidth() > canvas.getWidth());
@@ -202,7 +202,7 @@ public class Rectangle {
                 if (this.getHeight() > canvas.getHeight()) {
                     System.out.println(String.format(
                             "Error! The height is too large (Current canvas size is %dx%d). Please try again.",
-                            canvas.getHeight(), canvas.getHeight()));
+                            canvas.getWidth(), canvas.getHeight()));
                 }
 
             } while (this.getHeight() > canvas.getHeight());
@@ -234,7 +234,6 @@ public class Rectangle {
                         // Implement MOVE method
                         break;
                     case "z":
-                        System.out.println("ZOOM IN OR OUT SELECTED");
                         zoomRectangle(canvas, displaceX, displaceY);
                         // Implement Zoom method
                         break;
@@ -242,7 +241,7 @@ public class Rectangle {
                 }
             }
 
-            System.out.print(canvas.canvasString(this));
+            // System.out.print(canvas.canvasString(this));
 
             // Create new rectangle selection prompt
             System.out.println("Draw another rectangle (Y/N)?");
