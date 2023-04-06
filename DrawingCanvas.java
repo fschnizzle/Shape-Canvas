@@ -5,12 +5,15 @@ public class DrawingCanvas {
     private int width;
     private int height;
     private char bgChar;
+    private Scanner keyboard;
 
     // Constructors
-    public DrawingCanvas(int width, int height, char bgChar) {
+    public DrawingCanvas(int width, int height, char bgChar, Scanner kboard) {
         setWidth(width);
         setHeight(height);
         setBgChar(bgChar);
+
+        this.keyboard = kboard;
 
         String canvas = canvasString();
     }
@@ -130,6 +133,26 @@ public class DrawingCanvas {
         }
 
         return Canvas;
+    }
+
+    public void updateSettings() {
+
+        System.out.print("Canvas width: ");
+        setWidth(Integer.parseInt(keyboard.nextLine()));
+        System.out.print("Canvas height: ");
+        setHeight(Integer.parseInt(keyboard.nextLine()));
+        System.out.print("Background Character: ");
+        setBgChar(keyboard.nextLine().charAt(0));
+
+        System.out.print("Drawing canvas has been updated! ");
+
+        System.out.println("Current drawing canvas settings:");
+
+        System.out.println( // Display initial settings based on command line inputs
+                String.format("- Width: %d\n- Height: %d\n- Background character: %c", this.getWidth(),
+                        this.getHeight(), this.getBgChar()));
+        System.out.println("\n");
+
     }
 
 }
