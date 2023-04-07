@@ -118,6 +118,8 @@ public class Triangle {
         } while (selection.equals("a") || selection.equals("s") || selection.equals("w") || selection.equals("z"));
     }
 
+    // Method that allows a user to scale this triangle by one
+    // if it remains entirely on the canvas
     public void zoomTriangle(DrawingCanvas canvas, int displaceX, int displaceY) {
 
         String selection;
@@ -140,6 +142,7 @@ public class Triangle {
                             || displaceY + this.getSideLength() == canvas.getHeight()) {
                         System.out.println("This triangle reaches its limit. You cannot make it bigger!");
                     } else {
+                        // Increment sidelength
                         this.setSideLength(this.getSideLength() + 1);
                     }
                     break;
@@ -147,14 +150,13 @@ public class Triangle {
                     if (this.getSideLength() == 1) {
                         System.out.println("This triangle reaches its limit. You cannot make it smaller!");
                     } else {
+                        // Decrement sidelength
                         this.setSideLength(this.getSideLength() - 1);
                     }
                     break;
                 default:
             }
-
         } while (selection.equals("i") || selection.equals("o"));
-
     }
 
     public void triangleInputs(DrawingCanvas canvas) {
@@ -209,7 +211,7 @@ public class Triangle {
                         moveTriangle(canvas, displaceX, displaceY);
                         break;
                     case "z":
-                        // Implement Zoom method
+                        // Enter Zoom method
                         zoomTriangle(canvas, displaceX, displaceY);
                         break;
                     default:
