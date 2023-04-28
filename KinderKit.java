@@ -13,31 +13,18 @@ import java.util.Scanner;
  */
 public class KinderKit {
     public static void main(String[] args) {
-        // Check for correct number of command line arguments
-        if (args.length != 3) {
-            System.out
-                    .println("Error: Invalid number of arguments. Usage: java KinderKit <width> <height> <background>");
-            return;
-        }
 
-        // Parse command line arguments
-        int canvasWidth = Integer.parseInt(args[0]);
-        int canvasHeight = Integer.parseInt(args[1]);
-        char bgChar = args[2].charAt(0);
-
+        // Define Scanner keyboard object
+        // This will be used through whole program!
         Scanner keyboard = new Scanner(System.in);
-
-        // Display Welcome Message and initial canvas settings
-        System.out.println("----DIGITAL KINDER KIT: LET'S PLAY & LEARN----\nCurrent drawing canvas settings:");
-        System.out.printf("- Width: %d\n- Height: %d\n- Background character: %c\n\n", canvasWidth, canvasHeight,
-                bgChar);
 
         // Display Main Menu
         boolean exitMenu = false;
 
-        // Initialise Canvas
-        DrawingCanvas canvas = new DrawingCanvas(canvasWidth, canvasHeight, bgChar, keyboard);
+        // Initialise Canvas and pass initial arguments / scanner object
+        DrawingCanvas canvas = new DrawingCanvas(args, keyboard);
 
+        // Menu Interface
         while (!exitMenu) {
             // Prompts user for menu selection
             System.out.println("Please select an option. Type 4 to exit.\n" +

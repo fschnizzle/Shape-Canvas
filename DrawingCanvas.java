@@ -7,10 +7,8 @@ public class DrawingCanvas {
     private Scanner keyboard; // scanner to read input from keyboard
 
     // Constructor with all parameters
-    public DrawingCanvas(int width, int height, char bgChar, Scanner kboard) {
-        setWidth(width);
-        setHeight(height);
-        setBgChar(bgChar);
+    public DrawingCanvas(String[] kKargs, Scanner kboard) {
+        initialSettings(kKargs);
         this.keyboard = kboard;
     }
 
@@ -102,7 +100,7 @@ public class DrawingCanvas {
 
         // Add to canvas row by row
         for (int y = 0; y < height; y++) {
-            int printX = rectangle.getWidth();
+            // int printX = rectangle.getWidth();
             // Add to canvas char by char
             for (int x = 0; x < width; x++) {
                 if ((y >= fromY && y < fromY + rectangle.getHeight())
@@ -111,13 +109,37 @@ public class DrawingCanvas {
                 } else {
                     canvas += bgChar;
                 }
-                printX--;
+                // printX--;
             }
             // Move to next line
             canvas += "\n";
         }
 
         return canvas;
+    }
+
+    public void initialSettings(String[] kKargs) {
+        // Check for correct number of command line arguments
+        while (kKargs.length != 3) {
+            System.out
+                    .println("Error: Invalid number of arguments. Usage: java KinderKit <width> <height> <background>");
+            kKargs[0] = "s";
+            System.exit(0);
+        }
+
+        // Parse command line arguments
+        int canvasWidth = Integer.parseInt(kKargs[0]);
+        int canvasHeight = Integer.parseInt(kKargs[1]);
+        char bgChar = kKargs[2].charAt(0);
+
+        setWidth(canvasWidth);
+        setHeight(canvasHeight);
+        setBgChar(bgChar);
+
+        // Display Welcome Message and initial canvas settings
+        System.out.println("----DIGITAL KINDER KIT: LET'S PLAY & LEARN----\nCurrent drawing canvas settings:");
+        System.out.printf("- Width: %d\n- Height: %d\n- Background character: %c\n\n", canvasWidth, canvasHeight,
+                bgChar);
     }
 
     public void updateSettings() {
