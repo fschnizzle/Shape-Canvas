@@ -94,7 +94,7 @@ public class Rectangle {
             this.setYPosition(displaceY);
 
             // Display canvas with rectangle
-            System.out.print(canvas.canvasString(this));
+            System.out.print(canvas.displayCanvas(this));
 
             // Prompt user for left, right, up, down (A,S,W,Z) input
             System.out.println(
@@ -151,7 +151,7 @@ public class Rectangle {
             this.setYPosition(displaceY);
 
             // Prompt user for zoom in, out (I,O) input
-            System.out.print(canvas.canvasString(this));
+            System.out.print(canvas.displayCanvas(this));
             System.out.println(
                     "Type I/O to zoom in/out. Use other keys to go back to the Zooming/Moving menu.");
             selection = keyboard.nextLine();
@@ -233,7 +233,7 @@ public class Rectangle {
                 displaceY = this.getYPosition();
 
                 // Display Canvas with Triangle
-                System.out.print(canvas.canvasString(this));
+                System.out.print(canvas.displayCanvas(this));
 
                 // Prompt user for Zoom / Move controls
                 System.out.println("Type Z/M for zooming/moving. Use other keys to quit the Zooming/Moving mode.");

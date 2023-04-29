@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 /**
  * COMP90041 Semester 1, 2023: Assignment 1
@@ -49,6 +50,8 @@ public class KinderKit {
             case 1:
                 // Draw Triangle
                 Triangle t1 = new Triangle(keyboard);
+                // triangleList.add(t1);
+                canvas.addTriangle(t1);
                 t1.triangleInputs(canvas);
                 break;
             case 2:

@@ -76,7 +76,7 @@ public class Triangle {
             this.setYPosition(displaceY);
 
             // Display canvas with triangle
-            System.out.print(canvas.canvasString(this));
+            System.out.print(canvas.displayCanvas());
 
             // Prompt user for left, right, up, down (A,S,W,Z) input
             System.out.println(
@@ -130,7 +130,7 @@ public class Triangle {
             this.setYPosition(displaceY);
 
             // Prompt user for zoom in, out (I,O) input
-            System.out.print(canvas.canvasString(this));
+            System.out.print(canvas.displayCanvas());
             System.out.println(
                     "Type I/O to zoom in/out. Use other keys to go back to the Zooming/Moving menu.");
             selection = keyboard.nextLine();
@@ -162,68 +162,70 @@ public class Triangle {
     public void triangleInputs(DrawingCanvas canvas) {
 
         String selection;
-        // do-while loop until user selects other than 'Y'
+        // Initialise starting coordinates
+        int displaceX = 0;
+        int displaceY = 0;
+
+        // Triangle Sidelength prompt / error detection do-while loop. Until valid input
+        // given
         do {
-            // Initialise starting coordinates
-            int displaceX = 0;
-            int displaceY = 0;
+            System.out.print("Side length:\n");
+            setSideLength(Integer.parseInt(keyboard.nextLine()));
 
-            // Triangle Sidelength prompt / error detection do-while loop. Until valid input
-            // given
-            do {
-                System.out.print("Side length:\n");
-                setSideLength(Integer.parseInt(keyboard.nextLine()));
+            // Error detection to ensure triangle is within canvas
+            if (sideLength > canvas.getHeight() || sideLength > canvas.getWidth()) {
+                System.out.println(String.format(
+                        "Error! The side length is too long (Current canvas size is %dx%d). Please try again.",
+                        canvas.getWidth(), canvas.getHeight()));
+            }
 
-                // Error detection to ensure triangle is within canvas
-                if (sideLength > canvas.getHeight() || sideLength > canvas.getWidth()) {
-                    System.out.println(String.format(
-                            "Error! The side length is too long (Current canvas size is %dx%d). Please try again.",
-                            canvas.getWidth(), canvas.getHeight()));
-                }
+        } while (sideLength > canvas.getHeight() || sideLength > canvas.getWidth());
 
-            } while (sideLength > canvas.getHeight() || sideLength > canvas.getWidth());
+        // Prompts user for printing character
+        System.out.print("Printing character:\n");
+        setPChar(keyboard.nextLine().charAt(0));
 
-            // Prompts user for printing character
-            System.out.print("Printing character:\n");
-            setPChar(keyboard.nextLine().charAt(0));
+        // Update coordinates
+        this.setXPosition(displaceX);
+        this.setYPosition(displaceY);
 
-            // Update coordinates
-            this.setXPosition(displaceX);
-            this.setYPosition(displaceY);
+        // Zoom and Move display / prompt loop
+        do {
+            // Get initial coordinates
+            displaceX = this.getXPosition();
+            displaceY = this.getYPosition();
 
-            // Zoom and Move display / prompt loop
-            do {
-                // Get initial coordinates
-                displaceX = this.getXPosition();
-                displaceY = this.getYPosition();
+            // Display Canvas with Triangle
+            System.out.print(canvas.displayCanvas());
 
-                // Display Canvas with Triangle
-                System.out.print(canvas.canvasString(this));
-
-                // Prompt user for Zoom / Move controls
-                System.out.println("Type Z/M for zooming/moving. Use other keys to quit the Zooming/Moving mode.");
-                selection = keyboard.nextLine();
-
-                // Enter move or zoom functionality according to selection
-                switch (selection.toLowerCase()) {
-                    case "m":
-                        // Enter move mode
-                        moveTriangle(canvas, displaceX, displaceY);
-                        break;
-                    case "z":
-                        // Enter Zoom method
-                        zoomTriangle(canvas, displaceX, displaceY);
-                        break;
-                    default:
-                }
-            } while (selection.toUpperCase().equals("Z")
-                    || selection.toUpperCase().equals("M"));
-
-            // Create new triangle selection prompt
-            System.out.println("Draw another triangle (Y/N)?");
+            // Prompt user for Zoom / Move controls
+            System.out.println("Type Z/M/R for zooming/moving. Use other keys to quit the Zooming/Moving mode.");
             selection = keyboard.nextLine();
 
-        } while (selection.toUpperCase().equals("Y"));
+            // Enter move or zoom functionality according to selection
+            switch (selection.toLowerCase()) {
+                case "m":
+                    // Enter move mode
+                    moveTriangle(canvas, displaceX, displaceY);
+                    break;
+                case "z":
+                    // Enter Zoom mode
+                    zoomTriangle(canvas, displaceX, displaceY);
+                    break;
+                case "r":
+                    // Enter Rotate mode
+
+                default:
+            }
+        } while (selection.toUpperCase().equals("Z")
+                || selection.toUpperCase().equals("M"));
+
+        // Create new triangle selection prompt
+        System.out.println("Draw another triangle (Y/N)?");
+        selection = keyboard.nextLine();
+        if (selection.toUpperCase().equals("Y")) {
+            canvas.addTriangle(new Triangle(keyboard));
+        }
 
     }
 

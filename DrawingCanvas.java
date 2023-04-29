@@ -1,15 +1,18 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class DrawingCanvas {
     private int width; // width of the canvas
     private int height; // height of the canvas
     private char bgChar; // background character for the canvas
     private Scanner keyboard; // scanner to read input from keyboard
+    private static ArrayList<Triangle> triangleList; // ArrayList of Triangles
 
     // Constructor with all parameters
     public DrawingCanvas(String[] kKargs, Scanner kboard) {
         initialSettings(kKargs);
         this.keyboard = kboard;
+        this.triangleList = new ArrayList<Triangle>();
     }
 
     // Accessor method for the width
@@ -25,6 +28,11 @@ public class DrawingCanvas {
     // Accessor method for the background character
     public char getBgChar() {
         return bgChar;
+    }
+
+    // Accessor method for the background character
+    public ArrayList<Triangle> getTriangleList() {
+        return triangleList;
     }
 
     // Mutator method for the width
@@ -51,7 +59,7 @@ public class DrawingCanvas {
     }
 
     // Creates the character string that visualises an empty canvas.
-    public String canvasString() {
+    public String displayCanvas(Boolean isEmpty) {
         String canvas = ""; // Initialise empty canvas string
 
         // Add to canvas row by row
@@ -67,33 +75,51 @@ public class DrawingCanvas {
         return canvas;
     }
 
-    // Creates the character string that visualises a canvas with a triangle
-    public String canvasString(Triangle triangle) {
-        String canvas = ""; // Initialise empty canvas string
-        int fromX = triangle.getXPosition();
-        int fromY = triangle.getYPosition();
+    // Method: addTriangle(Triangle triangle)
+    public void addTriangle(Triangle triangle) {
+        this.triangleList.add(triangle);
+        System.out.println("Number of Triangles is now: " + this.triangleList.size());
+    }
 
-        // Add to canvas row by row
-        int printX = triangle.getSideLength();
-        for (int y = 0; y < height; y++) {
-            // Add to canvas char by char
-            for (int x = 0; x < width; x++) {
-                if ((y >= fromY && y < fromY + triangle.getSideLength())
-                        && (x >= fromX && x < fromX + printX + fromY)) {
-                    canvas += triangle.getPChar();
-                } else {
-                    canvas += bgChar;
+    // Method: deleteTriangle(Triangle triangle)
+    public void deleteTriangle(Triangle triangle) {
+        this.triangleList.remove(triangle);
+    }
+
+    // Creates the character string that visualises a canvas with a triangle
+    public String displayCanvas() {
+        String canvas = ""; // Initialise empty canvas string
+        ArrayList<Triangle> triangleList = this.triangleList;
+        Triangle curTriangle;
+
+        // Perform following for all triangles in triangleList
+        for (int i = 0; i < triangleList.size(); i++) {
+            curTriangle = triangleList.get(i);
+            int fromX = curTriangle.getXPosition();
+            int fromY = curTriangle.getYPosition();
+
+            // Add to canvas row by row
+            int printX = curTriangle.getSideLength();
+            for (int y = 0; y < height; y++) {
+                // Add to canvas char by char
+                for (int x = 0; x < width; x++) {
+                    if ((y >= fromY && y < fromY + curTriangle.getSideLength())
+                            && (x >= fromX && x < fromX + printX + fromY)) {
+                        canvas += curTriangle.getPChar();
+                    } else {
+                        canvas += bgChar;
+                    }
                 }
+                printX--; // Ensures each row is shorter by one (to create triangle)
+                canvas += "\n"; // Move to next line
             }
-            printX--; // Ensures each row is shorter by one (to create triangle)
-            canvas += "\n"; // Move to next line
         }
 
         return canvas;
     }
 
     // Creates the character string that visualises a canvas with a rectangle
-    public String canvasString(Rectangle rectangle) {
+    public String displayCanvas(Rectangle rectangle) {
         String canvas = ""; // Initialise empty canvas string
         int fromX = rectangle.getXPosition();
         int fromY = rectangle.getYPosition();
