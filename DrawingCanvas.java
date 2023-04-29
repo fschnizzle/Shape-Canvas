@@ -58,22 +58,76 @@ public class DrawingCanvas {
         this.bgChar = bgChar;
     }
 
-    // Creates the character string that visualises an empty canvas.
-    public String displayCanvas(Boolean isEmpty) {
-        String canvas = ""; // Initialise empty canvas string
+    // Initialise canvasArray to bgChar
+    public char[][] initCanvasArray() {
+        char[][] canvasArray = new char[this.getWidth()][this.getHeight()];
 
-        // Add to canvas row by row
-        for (int y = 0; y < height; y++) {
-            // Add to canvas char by char
-            for (int x = 0; x < width; x++) {
-                canvas += bgChar;
+        for (int y = 0; y < this.getHeight(); y++) {
+            for (int x = 0; x < this.getWidth(); x++) {
+                canvasArray[y][x] = '-';
             }
-            // Move to next line
-            canvas += "\n";
         }
 
-        return canvas;
+        return canvasArray;
     }
+
+    // Add a Triangle to canvasArray
+    public char[][] addTriToCanvasArray(char[][] cArray, Triangle triangle) {
+        char[][] canvasArray = cArray;
+        char[][] triangleArray = triangle.makeTriangleArray();
+        int tStartX = triangle.getXPosition();
+        int tStartY = triangle.getYPosition();
+
+        int width = canvasArray[0].length;
+        int height = canvasArray.length;
+
+        for (int y = tStartY; y < tStartY + triangle.getSideLength(); y++) {
+            for (int x = tStartX; x < tStartX + triangle.getSideLength(); x++) {
+                if (triangleArray[y - tStartY][x - tStartX] != ' ') {
+                    canvasArray[y][x] = triangleArray[y - tStartY][x - tStartX];
+                }
+            }
+        }
+
+        return canvasArray;
+    }
+
+    public String getCanvasString(char[][] canvasArray) {
+        String[] rowStrings = new String[canvasArray.length];
+
+        for (int y = 0; y < canvasArray.length; y++) {
+            rowStrings[y] = new String(canvasArray[y]);
+        }
+
+        String canvasString = String.join("\n", rowStrings);
+        return canvasString;
+    }
+
+    // // Creates the character string that visualises an empty canvas.
+    // public String displayCanvas(Boolean isEmpty) {
+
+    // // NEW CODE
+    // char[][] canvasArray = this.initCanvasArray();
+    // for (Triangle triangle : triangleList) {
+    // canvasArray = this.addTrisToArray(canvasArray, triangle);
+    // }
+    // return getCanvasString(canvasArray);
+
+    // // String canvas = ""; // Initialise empty canvas string
+
+    // // // Add to canvas row by row
+    // // for (int y = 0; y < height; y++) {
+    // // // Add to canvas char by char
+    // // for (int x = 0; x < width; x++) {
+    // // canvas += bgChar;
+    // // }
+    // // // Move to next line
+    // // canvas += "\n";
+    // // }
+
+    // // return canvas;
+
+    // }
 
     // Method: addTriangle(Triangle triangle)
     public void addTriangle(Triangle triangle) {
@@ -90,33 +144,40 @@ public class DrawingCanvas {
     public String displayCanvas() {
         String canvas = ""; // Initialise empty canvas string
         ArrayList<Triangle> triangleList = this.triangleList;
-        Triangle curTriangle;
 
-        // Perform following for all triangles in triangleList
-        for (int i = 0; i < triangleList.size(); i++) {
-            curTriangle = triangleList.get(i);
-            int fromX = curTriangle.getXPosition();
-            int fromY = curTriangle.getYPosition();
-
-            // Add to canvas row by row
-            int printX = curTriangle.getSideLength();
-            for (int y = 0; y < height; y++) {
-                // Add to canvas char by char
-                for (int x = 0; x < width; x++) {
-                    if ((y >= fromY && y < fromY + curTriangle.getSideLength())
-                            && (x >= fromX && x < fromX + printX + fromY)) {
-                        canvas += curTriangle.getPChar();
-                    } else {
-                        canvas += bgChar;
-                    }
-                }
-                printX--; // Ensures each row is shorter by one (to create triangle)
-                canvas += "\n"; // Move to next line
-            }
+        // NEW CODE
+        char[][] canvasArray = this.initCanvasArray();
+        for (Triangle triangle : triangleList) {
+            canvasArray = this.addTriToCanvasArray(canvasArray, triangle);
         }
-
-        return canvas;
+        return getCanvasString(canvasArray);
     }
+    // // Perform following for all triangles in triangleList
+    // for (int i = 0; i < triangleList.size(); i++) {
+    // curTriangle = triangleList.get(i);
+    // int fromX = curTriangle.getXPosition();
+    // int fromY = curTriangle.getYPosition();
+
+    // // Add to canvas row by row
+    // int printX = curTriangle.getSideLength();
+    // for (int y = 0; y < height; y++) {
+    // // Add to canvas char by char
+    // for (int x = 0; x < width; x++) {
+    // if ((y >= fromY && y < fromY + curTriangle.getSideLength())
+    // && (x >= fromX && x < fromX + printX + fromY)) {
+    // canvas += curTriangle.getPChar();
+    // } else {
+    // canvas += bgChar;
+    // }
+    // }
+    // printX--; // Ensures each row is shorter by one (to create triangle)
+    // canvas += "\n"; // Move to next line
+    // }
+    // }
+
+    // return canvas;
+
+    //
 
     // Creates the character string that visualises a canvas with a rectangle
     public String displayCanvas(Rectangle rectangle) {

@@ -7,6 +7,7 @@ public class Triangle {
     private char pChar; // printing character for the triangle
     private int xPosition; // starting X position of the triangle
     private int yPosition; // starting Y position of the triangle
+    private int rotationX90; // Shape is rotated by this many degrees (times 90)
     private Scanner keyboard;
 
     // Constructors
@@ -63,6 +64,26 @@ public class Triangle {
     }
 
     // Methods
+
+    // INIT TRI ARRAY
+    public char[][] makeTriangleArray() {
+        int sideLength = this.getSideLength();
+        char[][] triangleArray = new char[sideLength][sideLength];
+
+        // Case 1: No Rotation
+        for (int y = 0; y < sideLength; y++) {
+            // printing character portion
+            for (int x = 0; x < sideLength - y; x++) {
+                triangleArray[x][y] = this.getPChar();
+            }
+            // empty character portion
+            for (int x = sideLength - y; x < sideLength; x++) {
+                triangleArray[x][y] = ' ';
+            }
+        }
+
+        return triangleArray;
+    }
 
     // Method that allows a user to move this triangle on a given DrawingCanvas in
     // any direction if it remains entirely on the canvas
