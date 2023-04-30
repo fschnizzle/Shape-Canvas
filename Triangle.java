@@ -7,7 +7,7 @@ public class Triangle {
     private char pChar; // printing character for the triangle
     private int xPosition; // starting X position of the triangle
     private int yPosition; // starting Y position of the triangle
-    private int rotationX90; // Shape is rotated by this many degrees (times 90)
+    private int rotationX90 = 0; // Shape is rotated by this many degrees (times 90)
     private Scanner keyboard;
 
     // Constructors
@@ -34,6 +34,10 @@ public class Triangle {
         return yPosition;
     }
 
+    public int getRotationX90() {
+        return rotationX90;
+    }
+
     // Mutators
     public void setSideLength(int sideLength) {
         if (sideLength > 0) {
@@ -45,6 +49,16 @@ public class Triangle {
 
     public void setSideLength() {
         this.sideLength = 0;
+    }
+
+    public void setRotationX90(char RL) {
+        if (RL == 'R') {
+            this.rotationX90++;
+        } else if (RL == 'L') {
+            this.rotationX90--;
+        } else {
+            System.out.println("ERROR: Roation must be either R or L");
+        }
     }
 
     public void setPChar(char pChar) {
@@ -69,20 +83,80 @@ public class Triangle {
     public char[][] makeTriangleArray() {
         int sideLength = this.getSideLength();
         char[][] triangleArray = new char[sideLength][sideLength];
+        int rotateCase = this.getRotationX90();
 
-        // Case 1: No Rotation
-        for (int y = 0; y < sideLength; y++) {
-            // printing character portion
-            for (int x = 0; x < sideLength - y; x++) {
-                triangleArray[x][y] = this.getPChar();
-            }
-            // empty character portion
-            for (int x = sideLength - y; x < sideLength; x++) {
-                triangleArray[x][y] = ' ';
-            }
+        switch (rotateCase % 4) {
+            case 0: // Case 0: No Rotation
+                for (int y = 0; y < sideLength; y++) {
+                    // printing character portion
+                    for (int x = 0; x < sideLength - y; x++) {
+                        triangleArray[x][y] = this.getPChar();
+                    }
+                    // empty character portion
+                    for (int x = sideLength - y; x < sideLength; x++) {
+                        triangleArray[x][y] = ' ';
+                    }
+                }
+                break;
+
+            case 1: // Case 1: 90 degree rotation
+                for (int x = 0; x < sideLength; x++) {
+                    // printing character portion
+                    for (int y = 0; y < x; y++) {
+                        triangleArray[x][y] = ' ';
+                    }
+                    // empty character portion
+                    for (int y = x; y < sideLength; y++) {
+                        triangleArray[x][y] = this.getPChar();
+                    }
+                }
+                break;
+
+            case 2: // Case 2: 180 degree rotation
+                for (int y = 0; y < sideLength; y++) {
+                    // empty character portion
+                    for (int x = 0; x < sideLength - y - 1; x++) {
+                        triangleArray[x][y] = ' ';
+                    }
+                    // printing character portion
+                    for (int x = sideLength - y - 1; x < sideLength; x++) {
+                        triangleArray[x][y] = this.getPChar();
+                    }
+                }
+                break;
+            case 3: // Case 1: 270 degree rotation
+                for (int x = 0; x < sideLength; x++) {
+                    // printing character portion
+                    for (int y = 0; y <= x; y++) {
+                        triangleArray[x][y] = this.getPChar();
+                    }
+                    // empty character portion
+                    for (int y = x + 1; y < sideLength; y++) {
+                        triangleArray[x][y] = ' ';
+                    }
+                }
+                break;
         }
 
         return triangleArray;
+    }
+
+    // Method that allows user to rotate a triangle clockwise (R) or Anti-CW (L)
+    public void rotateTriangle(DrawingCanvas canvas) {
+        String selection;
+        do {
+            // Display Canvas with Triangle
+            System.out.print(canvas.displayCanvas());
+
+            // Prompt user for Right or Left rotation instructions
+            System.out.println(
+                    "Type R/L to rotate clockwise/anti-clockwise. Use other keys to go back to the Zooming/Moving/Rotating menu.");
+            selection = keyboard.nextLine().toUpperCase();
+            if (selection.equals("R") || selection.equals("L")) {
+                this.setRotationX90(selection.charAt(0));
+            }
+        } while (selection.equals("R") || selection.equals("L"));
+
     }
 
     // Method that allows a user to move this triangle on a given DrawingCanvas in
@@ -234,12 +308,12 @@ public class Triangle {
                     zoomTriangle(canvas, displaceX, displaceY);
                     break;
                 case "r":
+                    rotateTriangle(canvas);
                     // Enter Rotate mode
-
                 default:
             }
         } while (selection.toUpperCase().equals("Z")
-                || selection.toUpperCase().equals("M"));
+                || selection.toUpperCase().equals("M") || selection.toUpperCase().equals("R"));
 
         // Create new triangle selection prompt
         System.out.println("Draw another triangle (Y/N)?");
