@@ -9,9 +9,9 @@ public class DrawingCanvas {
     private static ArrayList<Triangle> triangleList; // ArrayList of Triangles
 
     // Constructor with all parameters
-    public DrawingCanvas(String[] kKargs, Scanner kboard) {
-        initialSettings(kKargs);
+    public DrawingCanvas(Scanner kboard) {
         this.keyboard = kboard;
+        initialSettings();
         this.triangleList = new ArrayList<Triangle>();
     }
 
@@ -60,11 +60,11 @@ public class DrawingCanvas {
 
     // Initialise canvasArray to bgChar
     public char[][] initCanvasArray() {
-        char[][] canvasArray = new char[this.getWidth()][this.getHeight()];
+        char[][] canvasArray = new char[this.getHeight()][this.getWidth()];
 
         for (int y = 0; y < this.getHeight(); y++) {
             for (int x = 0; x < this.getWidth(); x++) {
-                canvasArray[y][x] = '-';
+                canvasArray[y][x] = this.getBgChar();
             }
         }
 
@@ -157,19 +157,23 @@ public class DrawingCanvas {
         return canvas;
     }
 
-    public void initialSettings(String[] kKargs) {
+    public void initialSettings() {
         // Check for correct number of command line arguments
-        while (kKargs.length != 3) {
-            System.out
-                    .println("Error: Invalid number of arguments. Usage: java KinderKit <width> <height> <background>");
-            kKargs[0] = "s";
-            System.exit(0);
-        }
+        // while (kKargs.length != 3) {
+        // System.out
+        // .println("Error: Invalid number of arguments. Usage: java KinderKit <width>
+        // <height> <background>");
+        // kKargs[0] = "s";
+        // System.exit(0);
+        // }
 
         // Parse command line arguments
-        int canvasWidth = Integer.parseInt(kKargs[0]);
-        int canvasHeight = Integer.parseInt(kKargs[1]);
-        char bgChar = kKargs[2].charAt(0);
+        System.out.print("Canvas width: ");
+        int canvasWidth = Integer.parseInt(keyboard.nextLine());
+        System.out.print("Canvas height: ");
+        int canvasHeight = Integer.parseInt(keyboard.nextLine());
+        System.out.print("Background character: ");
+        char bgChar = keyboard.nextLine().charAt(0);
 
         setWidth(canvasWidth);
         setHeight(canvasHeight);

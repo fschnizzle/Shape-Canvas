@@ -315,13 +315,6 @@ public class Triangle {
         } while (selection.toUpperCase().equals("Z")
                 || selection.toUpperCase().equals("M") || selection.toUpperCase().equals("R"));
 
-        // Create new triangle selection prompt
-        System.out.println("Draw another triangle (Y/N)?");
-        selection = keyboard.nextLine();
-        if (selection.toUpperCase().equals("Y")) {
-            canvas.addTriangle(new Triangle(keyboard));
-        }
-
     }
 
 }
