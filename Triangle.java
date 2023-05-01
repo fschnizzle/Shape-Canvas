@@ -83,7 +83,7 @@ public class Triangle {
     public char[][] makeTriangleArray() {
         int sideLength = this.getSideLength();
         char[][] triangleArray = new char[sideLength][sideLength];
-        int rotateCase = this.getRotationX90();
+        int rotateCase = (this.getRotationX90() < 0) ? -this.getRotationX90() : this.getRotationX90();
 
         switch (rotateCase % 4) {
             case 0: // Case 0: No Rotation

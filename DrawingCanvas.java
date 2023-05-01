@@ -95,39 +95,16 @@ public class DrawingCanvas {
     public String getCanvasString(char[][] canvasArray) {
         String[] rowStrings = new String[canvasArray.length];
 
+        // Converts each row of char array into string
         for (int y = 0; y < canvasArray.length; y++) {
             rowStrings[y] = new String(canvasArray[y]);
         }
 
+        // Appends row to canvasString
         String canvasString = String.join("\n", rowStrings);
+        canvasString = canvasString + "\n";
         return canvasString;
     }
-
-    // // Creates the character string that visualises an empty canvas.
-    // public String displayCanvas(Boolean isEmpty) {
-
-    // // NEW CODE
-    // char[][] canvasArray = this.initCanvasArray();
-    // for (Triangle triangle : triangleList) {
-    // canvasArray = this.addTrisToArray(canvasArray, triangle);
-    // }
-    // return getCanvasString(canvasArray);
-
-    // // String canvas = ""; // Initialise empty canvas string
-
-    // // // Add to canvas row by row
-    // // for (int y = 0; y < height; y++) {
-    // // // Add to canvas char by char
-    // // for (int x = 0; x < width; x++) {
-    // // canvas += bgChar;
-    // // }
-    // // // Move to next line
-    // // canvas += "\n";
-    // // }
-
-    // // return canvas;
-
-    // }
 
     // Method: addTriangle(Triangle triangle)
     public void addTriangle(Triangle triangle) {
@@ -152,34 +129,9 @@ public class DrawingCanvas {
         }
         return getCanvasString(canvasArray);
     }
-    // // Perform following for all triangles in triangleList
-    // for (int i = 0; i < triangleList.size(); i++) {
-    // curTriangle = triangleList.get(i);
-    // int fromX = curTriangle.getXPosition();
-    // int fromY = curTriangle.getYPosition();
 
-    // // Add to canvas row by row
-    // int printX = curTriangle.getSideLength();
-    // for (int y = 0; y < height; y++) {
-    // // Add to canvas char by char
-    // for (int x = 0; x < width; x++) {
-    // if ((y >= fromY && y < fromY + curTriangle.getSideLength())
-    // && (x >= fromX && x < fromX + printX + fromY)) {
-    // canvas += curTriangle.getPChar();
-    // } else {
-    // canvas += bgChar;
-    // }
-    // }
-    // printX--; // Ensures each row is shorter by one (to create triangle)
-    // canvas += "\n"; // Move to next line
-    // }
-    // }
-
-    // return canvas;
-
-    //
-
-    // Creates the character string that visualises a canvas with a rectangle
+    // NOT IN USE: Creates the character string that visualises a canvas with a
+    // rectangle
     public String displayCanvas(Rectangle rectangle) {
         String canvas = ""; // Initialise empty canvas string
         int fromX = rectangle.getXPosition();
