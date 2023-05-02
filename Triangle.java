@@ -12,6 +12,7 @@ public class Triangle {
 
     // Constructors
     public Triangle(Scanner kboard) {
+        boolean invalidSideLength = true;
         setSideLength();
         setPChar();
         this.keyboard = kboard;
@@ -39,11 +40,15 @@ public class Triangle {
     }
 
     // Mutators
-    public void setSideLength(int sideLength) {
+    public boolean setSideLength(int sideLength) {
+        // returns true if invalid, false if valid
+
         if (sideLength > 0) {
             this.sideLength = sideLength;
+            return false;
         } else {
             System.err.println("Error! Side length must be postive");
+            return true;
         }
     }
 
@@ -264,8 +269,11 @@ public class Triangle {
         // Triangle Sidelength prompt / error detection do-while loop. Until valid input
         // given
         do {
-            System.out.print("Side length:\n");
-            setSideLength(Integer.parseInt(keyboard.nextLine()));
+            boolean isInvalidSideLength = true;
+            while (isInvalidSideLength) {
+                System.out.print("Side length:\n");
+                isInvalidSideLength = setSideLength(Integer.parseInt(keyboard.nextLine()));
+            }
 
             // Error detection to ensure triangle is within canvas
             if (sideLength > canvas.getHeight() || sideLength > canvas.getWidth()) {

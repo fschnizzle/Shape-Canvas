@@ -51,6 +51,7 @@ public class KinderKit {
                     cols = Integer.parseInt(tmps[1]);
                     bgChar = tmps[2].charAt(0);
                     bitmap = new char[rows][cols];
+
                 }
             } else {
                 System.out.println("The given file seems empty!");
@@ -75,32 +76,33 @@ public class KinderKit {
         }
 
         // displayMenu()
-        menuSelection();
+        menuSelection(bitmap, bgChar);
 
         // Exit message
         System.out.println("Goodbye! We hope you had fun :)");
         System.exit(0);
     }
 
-    public static void menuSelection() {
+    public static void menuSelection(char[][] bitmap, char bgChar) {
         boolean exitMenu = false;
 
         // Loop until option 4 is selected
         while (!exitMenu) {
             // Prompts user for menu selection
             System.out.println("Please select an option. Type 3 to exit.\n" +
-                    "1. Draw triangles [CHANGE LATER]\n2. Freestyle Drawing\n3. Exit");
+                    "1. Draw a predefined object\n2. Freestyle Drawing\n3. Exit");
 
             // Takes input
             int menuCase = Integer.parseInt(keyboard.nextLine());
-            exitMenu = handleMenuSelection(menuCase);
+            exitMenu = handleMenuSelection(menuCase, bitmap, bgChar);
         }
     }
 
-    public static Boolean handleMenuSelection(int selection) {
+    public static Boolean handleMenuSelection(int selection, char[][] bitmap, char bgChar) {
         // Switch for menu items (cases: 1-4)
         switch (selection) {
             case 1:
+                challengeMenu(bitmap, bgChar);
 
                 break;
             case 2:
@@ -152,6 +154,70 @@ public class KinderKit {
 
             // Exit if EXIT_VALUE (3) given
         } while (selection != EXIT_VALUE);
+    }
+
+    public static void challengeMenu(char[][] bitmap, char bgChar) {
+        char[][] sampleCanvas = bitmap;
+        int selection;
+        final int PREVIEW_SAMPLE_VALUE = 1;
+        final int START_EDIT_VALUE = 2;
+        final int CHECK_RESULT_VALUE = 3;
+        final int EXIT_VALUE = 4;
+
+        // Define Canvas and pass scanner object
+        canvas = new DrawingCanvas(keyboard, bitmap, bgChar);
+        do {
+            // Prompt user for menu selection (1,2,3,4)
+            System.out.println("Please select an option. Type 4 to go back to the main menu");
+            System.out.println(
+                    "1. Preview the sample drawing\n2. Start/edit your current canvas\n3. Check Result\n4. Go back to the main menu");
+            selection = Integer.parseInt(keyboard.nextLine());
+
+            // Handle Menu Selection
+            switch (selection) {
+                case PREVIEW_SAMPLE_VALUE: // Displays sample drawing
+                    System.out.println(canvas.getCanvasString(sampleCanvas));
+                    break;
+                case START_EDIT_VALUE: // Start/edit your current canvas
+                    canvas.startEditCanvasMenu();
+                    break;
+                case CHECK_RESULT_VALUE:
+                    // Code that compares SAMPLE and canvas
+                    checkResult(canvas.getCanvasString(sampleCanvas), canvas.displayCanvas());
+                    break;
+                case EXIT_VALUE: // Go back to the main menu
+                    break;
+                default:
+                    System.out.println("Invalid Option. Type 1-4:");
+            }
+
+            // Exit if EXIT_VALUE (3) given
+        } while (selection != EXIT_VALUE);
+
+    }
+
+    public static void checkResult(String sampleCanvas, String yourCanvas) {
+        boolean isMatch = true; // Assume true until proven false
+
+        // Compare each character in sampleCanvas against corresponding yourCanvas char
+        for (int i = 0; i < sampleCanvas.length(); i++) {
+            if (sampleCanvas.charAt(i) != yourCanvas.charAt(i)) {
+                isMatch = false;
+                System.out.println("Not quite! Please edit your canvas and check the result again.");
+                break;
+            }
+        }
+        if (isMatch) {
+            System.out.println("You successfully complete the drawing task. Congratulations!!");
+        }
+
+        // Display sample drawing + message
+        System.out.println("This is the sample drawing:");
+        System.out.println(sampleCanvas);
+
+        // Display your drawing + message
+        System.out.println("And this your drawing:");
+        System.out.println(yourCanvas);
     }
 
 }

@@ -15,6 +15,19 @@ public class DrawingCanvas {
         this.triangleList = new ArrayList<Triangle>();
     }
 
+    // Constructor with sample canvas given
+    public DrawingCanvas(Scanner kboard, char[][] sampleCanvas, char bgChar) {
+        this.keyboard = kboard;
+
+        // Set up canvas based on sampleCanvas details
+        setWidth(sampleCanvas[1].length);
+        setHeight(sampleCanvas.length);
+        setBgChar(bgChar);
+
+        // Initialise triangleList
+        this.triangleList = new ArrayList<Triangle>();
+    }
+
     // Accessor method for the width
     public int getWidth() {
         return width;
@@ -135,7 +148,6 @@ public class DrawingCanvas {
     // Method: addTriangle(Triangle triangle)
     public void addTriangle(Triangle triangle) {
         this.triangleList.add(triangle);
-        System.out.println("Number of Triangles is now: " + this.triangleList.size());
     }
 
     // Method: deleteTriangle(Triangle triangle)
