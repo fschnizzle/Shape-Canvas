@@ -146,7 +146,7 @@ public class Triangle {
         String selection;
         do {
             // Display Canvas with Triangle
-            System.out.print(canvas.displayCanvas());
+            System.out.println(canvas.displayCanvas());
 
             // Prompt user for Right or Left rotation instructions
             System.out.println(
@@ -171,7 +171,7 @@ public class Triangle {
             this.setYPosition(displaceY);
 
             // Display canvas with triangle
-            System.out.print(canvas.displayCanvas());
+            System.out.println(canvas.displayCanvas());
 
             // Prompt user for left, right, up, down (A,S,W,Z) input
             System.out.println(
@@ -225,7 +225,7 @@ public class Triangle {
             this.setYPosition(displaceY);
 
             // Prompt user for zoom in, out (I,O) input
-            System.out.print(canvas.displayCanvas());
+            System.out.println(canvas.displayCanvas());
             System.out.println(
                     "Type I/O to zoom in/out. Use other keys to go back to the Zooming/Moving menu.");
             selection = keyboard.nextLine();
@@ -291,7 +291,7 @@ public class Triangle {
             displaceY = this.getYPosition();
 
             // Display Canvas with Triangle
-            System.out.print(canvas.displayCanvas());
+            System.out.println(canvas.displayCanvas());
 
             // Prompt user for Zoom / Move controls
             System.out.println("Type Z/M/R for zooming/moving. Use other keys to quit the Zooming/Moving mode.");
