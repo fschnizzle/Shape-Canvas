@@ -1,22 +1,78 @@
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
- * COMP90041 Semester 1, 2023: Assignment 1
+ * COMP90041 Semester 1, 2023: Assignment 1 (part two)
  * 
- * This program is a digital kinder kit that allows users to draw triangles and
- * rectangles on a canvas,
- * and update the canvas settings. The program takes command line arguments for
- * the canvas width, height,
- * and background character.
+ * This program is a digital kinder kit that allows users to draw triangles on a
+ * canvas in one of two modes - (1) Challenge mode: where users attempt to match
+ * a predefined shape according to a comma seperated txt file, and (2) Freestyle
+ * mode: where users can define canvas and draw shapes freely
+ * The program takes command line arguments for the predefined shape (.txt)
+ * file.
  * 
- * @author Flynn
- */
+ * @author Flynn Schneider
+ *         Student ID number: 982143
+ *         Student email: fschneider@student.unimelb.edu.au
+ **/
 public class KinderKit {
     static Scanner keyboard = new Scanner(System.in); // Scanner Object
     static DrawingCanvas canvas;
 
     public static void main(String[] args) {
+        // DON'T TOUCH LINES 23 to 72: File I/O given code
+        // Check program arguments
+        if (args.length != 1) {
+            System.out.println("This program takes exactly one argument!");
+            return;
+        }
+
+        // Read sample drawing from file
+        Scanner inputStream = null;
+        char[][] bitmap = null;
+        int rows = 0, cols = 0;
+        char bgChar;
+
+        try {
+            inputStream = new Scanner(new FileInputStream(args[0]));
+            String line;
+
+            // Read the first line
+            if (inputStream.hasNextLine()) {
+                line = inputStream.nextLine();
+                String[] tmps = line.split(",");
+                if (tmps.length != 3) {
+                    System.out.println("The given file is in wrong format!");
+                    return;
+                } else {
+                    rows = Integer.parseInt(tmps[0]);
+                    cols = Integer.parseInt(tmps[1]);
+                    bgChar = tmps[2].charAt(0);
+                    bitmap = new char[rows][cols];
+                }
+            } else {
+                System.out.println("The given file seems empty!");
+                return;
+            }
+
+            // Read the remaining lines
+            int rowIndex = 0;
+            while (inputStream.hasNextLine()) {
+                line = inputStream.nextLine();
+                String[] tmps = line.split(",");
+                for (int i = 0; i < tmps.length; i++) {
+                    bitmap[rowIndex][i] = tmps[i].charAt(0);
+                }
+                rowIndex++;
+            }
+            // Close the file input stream
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("The given file is not found!");
+            return;
+        }
 
         // displayMenu()
         menuSelection();
@@ -49,10 +105,6 @@ public class KinderKit {
                 break;
             case 2:
                 freestyleMenu();
-
-                // Draw Rectangle
-                // Rectangle r1 = new Rectangle(keyboard);
-                // r1.rectangleInputs(canvas);
                 break;
             case 3:
                 // Exit program
@@ -71,79 +123,35 @@ public class KinderKit {
 
     public static void freestyleMenu() {
         int selection;
+        final int START_EDIT_VALUE = 1;
+        final int SHARE_CANVAS_VALUE = 2;
+        final int EXIT_VALUE = 3;
+
         // Define Canvas and pass scanner object
         canvas = new DrawingCanvas(keyboard);
         do {
-
+            // Prompt user for menu selection (1,2,3)
             System.out.println("Please select an option. Type 3 to go back to the main menu");
             System.out.println(
                     "1. Start/edit your current canvas\n2. Share your current drawing\n3. Go back to the main menu");
             selection = Integer.parseInt(keyboard.nextLine());
+
+            // Handle Menu Selection
             switch (selection) {
-                case 1: // Start/edit your current canvas
-                    startEditCanvasMenu();
+                case START_EDIT_VALUE: // Start/edit your current canvas
+                    canvas.startEditCanvasMenu();
                     break;
-                case 2: // Share your current drawing
+                case SHARE_CANVAS_VALUE: // Share your current drawing
+                    System.out.println(canvas.displayShareCanvas());
                     break;
-                case 3: // Go back to the main menu
+                case EXIT_VALUE: // Go back to the main menu
                     break;
                 default:
                     System.out.println("Invalid Option. Type 1-3:");
             }
 
-        } while (selection != 3);
+            // Exit if EXIT_VALUE (3) given
+        } while (selection != EXIT_VALUE);
     }
 
-    public static void startEditCanvasMenu() {
-        int selection;
-        do {
-            System.out.println(canvas.displayCanvas());
-            System.out.println(
-                    "Please select an option. Type 4 to go back to the previous menu.\n1. Add a new Triangle\n2. Edit a triangle\n3. Remove a triangle\n4. Go back");
-            selection = Integer.parseInt(keyboard.nextLine());
-            switch (selection) {
-                case 1: // Add a new Triangle
-                    addTriangleMenu();
-                    break;
-                case 2: // Edit a triangle
-                    editDeleteTriangleMenu(false);
-                    break;
-                case 3: // Remove a triangle
-                    editDeleteTriangleMenu(true);
-                    break;
-                case 4: // Go back
-                    break;
-                default:
-                    System.out.println("Invalid Option. Type 1-4:");
-            }
-        } while (selection != 4);
-
-    }
-
-    public static void addTriangleMenu() {
-        // Draw Triangle
-        Triangle triangle = new Triangle(keyboard);
-        canvas.addTriangle(triangle);
-        triangle.triangleInputs(canvas);
-    }
-
-    public static void editDeleteTriangleMenu(boolean deleteShape) {
-        // Draw Triangle
-        ArrayList<Triangle> triList = canvas.getTriangleList();
-        int shapeNum = 1;
-        int selectedShape;
-        for (Triangle tri : triList) {
-            System.out.printf("Shape #%d - Triangle: xPos = %d, yPos = %d, tChar = %c\n", shapeNum, tri.getXPosition(),
-                    tri.getYPosition(), tri.getPChar());
-            shapeNum++;
-        }
-        System.out.println("Index of the shape:");
-        selectedShape = Integer.parseInt(keyboard.nextLine());
-        if (deleteShape) {
-            triList.remove(selectedShape);
-        } else {
-            triList.get(selectedShape).triangleInputs(canvas);
-        }
-
-    }
 }

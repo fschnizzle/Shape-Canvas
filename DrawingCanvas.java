@@ -102,8 +102,34 @@ public class DrawingCanvas {
 
         // Appends row to canvasString
         String canvasString = String.join("\n", rowStrings);
-        canvasString = canvasString + "\n";
         return canvasString;
+    }
+
+    public String displayShareCanvas() {
+        // Retrieve canvasString and Initialise empty csv string
+        String canvasString = this.displayCanvas();
+        String canvasCSVString = "";
+
+        // Add canvas head
+        canvasCSVString += String.format("%d,%d,%c\n", this.getWidth(), this.getHeight(), this.getBgChar());
+
+        // Add character by character to canvasCSVString
+        for (int i = 0; i < canvasString.length() - 1; i++) {
+            char curChar = canvasString.charAt(i); // Current character
+
+            // Append current char
+            canvasCSVString += curChar;
+
+            // Append comma if current char is not newLine characyer
+            if (canvasString.charAt(i) != '\n' && canvasString.charAt(i + 1) != '\n') {
+                canvasCSVString += ',';
+            }
+        }
+
+        // Add last character
+        canvasCSVString += canvasString.charAt(canvasString.length() - 1);
+
+        return canvasCSVString;
     }
 
     // Method: addTriangle(Triangle triangle)
@@ -119,7 +145,6 @@ public class DrawingCanvas {
 
     // Creates the character string that visualises a canvas with a triangle
     public String displayCanvas() {
-        String canvas = ""; // Initialise empty canvas string
         ArrayList<Triangle> triangleList = this.triangleList;
 
         // NEW CODE
@@ -158,15 +183,6 @@ public class DrawingCanvas {
     }
 
     public void initialSettings() {
-        // Check for correct number of command line arguments
-        // while (kKargs.length != 3) {
-        // System.out
-        // .println("Error: Invalid number of arguments. Usage: java KinderKit <width>
-        // <height> <background>");
-        // kKargs[0] = "s";
-        // System.exit(0);
-        // }
-
         // Parse command line arguments
         System.out.print("Canvas width: ");
         int canvasWidth = Integer.parseInt(keyboard.nextLine());
@@ -205,6 +221,75 @@ public class DrawingCanvas {
         System.out.println(
                 String.format("- Width: %d\n- Height: %d\n- Background character: %c\n",
                         this.getWidth(), this.getHeight(), this.getBgChar()));
+    }
+
+    public void startEditCanvasMenu() {
+        int selection;
+        do {
+            System.out.println(this.displayCanvas());
+            System.out.println(
+                    "Please select an option. Type 4 to go back to the previous menu.\n1. Add a new Triangle\n2. Edit a triangle\n3. Remove a triangle\n4. Go back");
+            selection = Integer.parseInt(keyboard.nextLine());
+            switch (selection) {
+                case 1: // Add a new Triangle
+                    addTriangleMenu();
+                    break;
+                case 2: // Edit a triangle
+                    if (this.getTriangleList().size() > 0) {
+                        editDeleteTriangleMenu(false);
+                    } else {
+                        System.out.println("The current canvas is clean; there are no shapes to remove!");
+                    }
+                    break;
+                case 3: // Remove a triangle
+                    if (this.getTriangleList().size() > 0) {
+                        editDeleteTriangleMenu(true);
+                    } else {
+                        System.out.println("The current canvas is clean; there are no shapes to remove!");
+                    }
+                    break;
+                case 4: // Go back
+                    break;
+                default:
+                    System.out.println("Invalid Option. Type 1-4:");
+            }
+        } while (selection != 4);
+
+    }
+
+    public void addTriangleMenu() {
+        // Draw Triangle
+        Triangle triangle = new Triangle(keyboard);
+        this.addTriangle(triangle);
+        triangle.triangleInputs(this);
+    }
+
+    public void editDeleteTriangleMenu(boolean deleteShape) {
+        ArrayList<Triangle> triList = this.getTriangleList();
+        int shapeNum = 1;
+        int selectedShape;
+
+        for (Triangle tri : triList) {
+            System.out.printf("Shape #%d - Triangle: xPos = %d, yPos = %d, tChar = %c\n", shapeNum, tri.getXPosition(),
+                    tri.getYPosition(), tri.getPChar());
+            shapeNum++;
+        }
+        System.out.println("Index of the shape:");
+        selectedShape = Integer.parseInt(keyboard.nextLine()) - 1;
+        if (selectedShape >= 0 && selectedShape <= triList.size() + 1)
+            if (deleteShape) {
+                // Delete condition given
+                triList.remove(selectedShape);
+            } else {
+                // Edit triangle
+                triList.get(selectedShape).triangleInputs(this);
+            }
+        else if (selectedShape <= 0) {
+            System.out.println("The shape index cannot be smaller than the number of shapes!");
+        } else {
+            System.out.println("The shape index cannot be larger than the number of shapes!");
+        }
+
     }
 
 }
