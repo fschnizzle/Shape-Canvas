@@ -85,7 +85,7 @@ public class KinderKit {
 
     public static void menuSelection(char[][] bitmap, char bgChar) {
         boolean exitMenu = false;
-
+        System.out.println("----DIGITAL KINDER KIT: LET'S PLAY & LEARN----");
         // Loop until option 4 is selected
         while (!exitMenu) {
             // Prompts user for menu selection
@@ -133,7 +133,7 @@ public class KinderKit {
         canvas = new DrawingCanvas(keyboard);
         do {
             // Prompt user for menu selection (1,2,3)
-            System.out.println("Please select an option. Type 3 to go back to the main menu");
+            System.out.println("Please select an option. Type 3 to go back to the main menu.");
             System.out.println(
                     "1. Start/edit your current canvas\n2. Share your current drawing\n3. Go back to the main menu");
             selection = Integer.parseInt(keyboard.nextLine());
@@ -144,12 +144,13 @@ public class KinderKit {
                     canvas.startEditCanvasMenu();
                     break;
                 case SHARE_CANVAS_VALUE: // Share your current drawing
+                    System.out.println("This is the detail of your current drawing");
                     System.out.println(canvas.displayShareCanvas());
                     break;
                 case EXIT_VALUE: // Go back to the main menu
                     break;
                 default:
-                    System.out.println("Invalid Option. Type 1-3:");
+                    System.out.println("Unsupported option. Please try again.");
             }
 
             // Exit if EXIT_VALUE (3) given
@@ -168,14 +169,15 @@ public class KinderKit {
         canvas = new DrawingCanvas(keyboard, bitmap, bgChar);
         do {
             // Prompt user for menu selection (1,2,3,4)
-            System.out.println("Please select an option. Type 4 to go back to the main menu");
+            System.out.println("Please select an option. Type 4 to go back to the main menu.");
             System.out.println(
-                    "1. Preview the sample drawing\n2. Start/edit your current canvas\n3. Check Result\n4. Go back to the main menu");
+                    "1. Preview the sample drawing\n2. Start/edit the current canvas\n3. Check result\n4. Go back to the main menu");
             selection = Integer.parseInt(keyboard.nextLine());
 
             // Handle Menu Selection
             switch (selection) {
                 case PREVIEW_SAMPLE_VALUE: // Displays sample drawing
+                    System.out.println("This is your task. Just try to draw the same object. Enjoy!");
                     System.out.println(canvas.getCanvasString(sampleCanvas));
                     break;
                 case START_EDIT_VALUE: // Start/edit your current canvas
@@ -188,7 +190,7 @@ public class KinderKit {
                 case EXIT_VALUE: // Go back to the main menu
                     break;
                 default:
-                    System.out.println("Invalid Option. Type 1-4:");
+                    System.out.println("Unsupported option. Please try again.");
             }
 
             // Exit if EXIT_VALUE (3) given
@@ -216,7 +218,7 @@ public class KinderKit {
         System.out.println(sampleCanvas);
 
         // Display your drawing + message
-        System.out.println("And this your drawing:");
+        System.out.println("And this is your drawing:");
         System.out.println(yourCanvas);
     }
 

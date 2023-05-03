@@ -124,7 +124,7 @@ public class DrawingCanvas {
         String canvasCSVString = "";
 
         // Add canvas head
-        canvasCSVString += String.format("%d,%d,%c\n", this.getWidth(), this.getHeight(), this.getBgChar());
+        canvasCSVString += String.format("%d,%d,%c\n", this.getHeight(), this.getWidth(), this.getBgChar());
 
         // Add character by character to canvasCSVString
         for (int i = 0; i < canvasString.length() - 1; i++) {
@@ -208,9 +208,10 @@ public class DrawingCanvas {
         setBgChar(bgChar);
 
         // Display Welcome Message and initial canvas settings
-        System.out.println("----DIGITAL KINDER KIT: LET'S PLAY & LEARN----\nCurrent drawing canvas settings:");
-        System.out.printf("- Width: %d\n- Height: %d\n- Background character: %c\n\n", canvasWidth, canvasHeight,
-                bgChar);
+        // System.out.println("\nCurrent drawing canvas settings:");
+        // System.out.printf("- Width: %d\n- Height: %d\n- Background character:
+        // %c\n\n", canvasWidth, canvasHeight,
+        // bgChar);
     }
 
     public void updateSettings() {
@@ -250,7 +251,7 @@ public class DrawingCanvas {
                     if (this.getTriangleList().size() > 0) {
                         editDeleteTriangleMenu(false);
                     } else {
-                        System.out.println("The current canvas is clean; there are no shapes to remove!");
+                        System.out.println("The current canvas is clean; there are no shapes to edit!");
                     }
                     break;
                 case 3: // Remove a triangle
@@ -273,7 +274,7 @@ public class DrawingCanvas {
         // Draw Triangle
         Triangle triangle = new Triangle(keyboard);
         this.addTriangle(triangle);
-        triangle.triangleInputs(this);
+        triangle.triangleInputs(this, false);
     }
 
     public void editDeleteTriangleMenu(boolean deleteShape) {
@@ -286,15 +287,22 @@ public class DrawingCanvas {
                     tri.getYPosition(), tri.getPChar());
             shapeNum++;
         }
-        System.out.println("Index of the shape:");
+        if (deleteShape) {
+            System.out.println("Index of the shape to remove:");
+        } else {
+            System.out.println("Index of the shape:");
+        }
+
         selectedShape = Integer.parseInt(keyboard.nextLine()) - 1;
-        if (selectedShape >= 0 && selectedShape <= triList.size() + 1)
+        if (selectedShape >= 0 && selectedShape <= triList.size())
             if (deleteShape) {
                 // Delete condition given
                 triList.remove(selectedShape);
             } else {
                 // Edit triangle
-                triList.get(selectedShape).triangleInputs(this);
+                Triangle tri = triList.get(selectedShape);
+                // tri.setRotationX90();
+                tri.triangleInputs(this, true);
             }
         else if (selectedShape <= 0) {
             System.out.println("The shape index cannot be smaller than the number of shapes!");
