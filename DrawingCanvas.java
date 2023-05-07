@@ -8,7 +8,7 @@ public class DrawingCanvas {
     private Scanner keyboard; // scanner to read input from keyboard
     private static ArrayList<Triangle> triangleList; // ArrayList of Triangles
 
-    // Constructor with all parameters
+    // Constructor with no given parameters
     public DrawingCanvas(Scanner kboard) {
         this.keyboard = kboard;
         initialSettings();
@@ -71,7 +71,7 @@ public class DrawingCanvas {
         this.bgChar = bgChar;
     }
 
-    // Initialise canvasArray to bgChar
+    // Initialise 'empty' canvasArray with bgChar as background character
     public char[][] initCanvasArray() {
         char[][] canvasArray = new char[this.getHeight()][this.getWidth()];
 
@@ -86,17 +86,20 @@ public class DrawingCanvas {
 
     // Add a Triangle to canvasArray
     public char[][] addTriToCanvasArray(char[][] cArray, Triangle triangle) {
-        char[][] canvasArray = cArray;
-        char[][] triangleArray = triangle.makeTriangleArray();
+        char[][] canvasArray = cArray; // Initialise canvasArray
+        char[][] triangleArray = triangle.makeTriangleArray(); // Creates tri charArray
         int tStartX = triangle.getXPosition();
         int tStartY = triangle.getYPosition();
 
         int width = canvasArray[0].length;
         int height = canvasArray.length;
 
+        // Checks chars within the 'triangle-box' (assumes triangle is within a
+        // sideLength by sideLength rectangle regradless of rotation etc)
         for (int y = tStartY; y < tStartY + triangle.getSideLength(); y++) {
             for (int x = tStartX; x < tStartX + triangle.getSideLength(); x++) {
                 if (triangleArray[y - tStartY][x - tStartX] != ' ') {
+                    // Add triangleChar to canvasArray at x,y if non bg-char found
                     canvasArray[y][x] = triangleArray[y - tStartY][x - tStartX];
                 }
             }
@@ -105,19 +108,21 @@ public class DrawingCanvas {
         return canvasArray;
     }
 
+    // Creates the string needed to display a canvas with triangles
     public String getCanvasString(char[][] canvasArray) {
         String[] rowStrings = new String[canvasArray.length];
 
-        // Converts each row of char array into string
+        // Convert each row of char array into string
         for (int y = 0; y < canvasArray.length; y++) {
             rowStrings[y] = new String(canvasArray[y]);
         }
 
-        // Appends row to canvasString
+        // Append row to canvasString
         String canvasString = String.join("\n", rowStrings);
         return canvasString;
     }
 
+    // Creates the share canvas output Stringf (Header + canvas string)
     public String displayShareCanvas() {
         // Retrieve canvasString and Initialise empty csv string
         String canvasString = this.displayCanvas();
@@ -133,7 +138,7 @@ public class DrawingCanvas {
             // Append current char
             canvasCSVString += curChar;
 
-            // Append comma if current char is not newLine characyer
+            // Append comma if current char is not newLine character
             if (canvasString.charAt(i) != '\n' && canvasString.charAt(i + 1) != '\n') {
                 canvasCSVString += ',';
             }
@@ -169,30 +174,30 @@ public class DrawingCanvas {
 
     // NOT IN USE: Creates the character string that visualises a canvas with a
     // rectangle
-    public String displayCanvas(Rectangle rectangle) {
-        String canvas = ""; // Initialise empty canvas string
-        int fromX = rectangle.getXPosition();
-        int fromY = rectangle.getYPosition();
+    // public String displayCanvas(Rectangle rectangle) {
+    // String canvas = ""; // Initialise empty canvas string
+    // int fromX = rectangle.getXPosition();
+    // int fromY = rectangle.getYPosition();
 
-        // Add to canvas row by row
-        for (int y = 0; y < height; y++) {
-            // int printX = rectangle.getWidth();
-            // Add to canvas char by char
-            for (int x = 0; x < width; x++) {
-                if ((y >= fromY && y < fromY + rectangle.getHeight())
-                        && (x >= fromX && x < fromX + rectangle.getWidth())) {
-                    canvas += rectangle.getPChar();
-                } else {
-                    canvas += bgChar;
-                }
-                // printX--;
-            }
-            // Move to next line
-            canvas += "\n";
-        }
+    // // Add to canvas row by row
+    // for (int y = 0; y < height; y++) {
+    // // int printX = rectangle.getWidth();
+    // // Add to canvas char by char
+    // for (int x = 0; x < width; x++) {
+    // if ((y >= fromY && y < fromY + rectangle.getHeight())
+    // && (x >= fromX && x < fromX + rectangle.getWidth())) {
+    // canvas += rectangle.getPChar();
+    // } else {
+    // canvas += bgChar;
+    // }
+    // // printX--;
+    // }
+    // // Move to next line
+    // canvas += "\n";
+    // }
 
-        return canvas;
-    }
+    // return canvas;
+    // }
 
     public void initialSettings() {
         // Parse command line arguments
@@ -206,17 +211,10 @@ public class DrawingCanvas {
         setWidth(canvasWidth);
         setHeight(canvasHeight);
         setBgChar(bgChar);
-
-        // Display Welcome Message and initial canvas settings
-        // System.out.println("\nCurrent drawing canvas settings:");
-        // System.out.printf("- Width: %d\n- Height: %d\n- Background character:
-        // %c\n\n", canvasWidth, canvasHeight,
-        // bgChar);
     }
 
     public void updateSettings() {
-
-        // Prompt the user to enter the new canvas settings
+        // Prompt user to enter new canvas settings
         System.out.print("Canvas width: ");
         setWidth(Integer.parseInt(keyboard.nextLine()));
         System.out.print("Canvas height: ");
@@ -224,13 +222,11 @@ public class DrawingCanvas {
         System.out.print("Background character: ");
         setBgChar(keyboard.nextLine().charAt(0));
 
-        // Notify the user that the canvas settings have been updated
+        // Canvas settings update confirmation message
         System.out.println("Drawing canvas has been updated!\n");
 
         // Display the current canvas settings
         System.out.println("Current drawing canvas settings:");
-
-        // Use String.format to display the current canvas settings
         System.out.println(
                 String.format("- Width: %d\n- Height: %d\n- Background character: %c\n",
                         this.getWidth(), this.getHeight(), this.getBgChar()));
@@ -238,61 +234,70 @@ public class DrawingCanvas {
 
     public void startEditCanvasMenu() {
         int selection;
+        final int ADD_TRI_VALUE = 1;
+        final int EDIT_TRI_VALUE = 2;
+        final int REMOVE_TRI_VALUE = 3;
+        final int EXIT_VALUE = 4;
         do {
             System.out.println(this.displayCanvas());
             System.out.println(
                     "Please select an option. Type 4 to go back to the previous menu.\n1. Add a new Triangle\n2. Edit a triangle\n3. Remove a triangle\n4. Go back");
             selection = Integer.parseInt(keyboard.nextLine());
             switch (selection) {
-                case 1: // Add a new Triangle
+                case ADD_TRI_VALUE: // Add a new Triangle (1)
                     addTriangleMenu();
                     break;
-                case 2: // Edit a triangle
+                case EDIT_TRI_VALUE: // Edit a triangle (2)
+                    // Check if triangle list is empty, otherwise display triangles for selection
                     if (this.getTriangleList().size() > 0) {
                         editDeleteTriangleMenu(false);
                     } else {
                         System.out.println("The current canvas is clean; there are no shapes to edit!");
                     }
                     break;
-                case 3: // Remove a triangle
+                case REMOVE_TRI_VALUE: // Remove a triangle (3)
                     if (this.getTriangleList().size() > 0) {
                         editDeleteTriangleMenu(true);
                     } else {
                         System.out.println("The current canvas is clean; there are no shapes to remove!");
                     }
                     break;
-                case 4: // Go back
+                case EXIT_VALUE: // Go back
                     break;
                 default:
                     System.out.println("Invalid Option. Type 1-4:");
             }
-        } while (selection != 4);
+            // Exit if EXIT_VALUE (4) given
+        } while (selection != EXIT_VALUE);
 
     }
 
     public void addTriangleMenu() {
-        // Draw Triangle
-        Triangle triangle = new Triangle(keyboard);
-        this.addTriangle(triangle);
-        triangle.triangleInputs(this, false);
+        Triangle triangle = new Triangle(keyboard); // Initialise new tri
+        this.addTriangle(triangle); // Add to canvas TriangleList
+        triangle.triangleInputs(this, false); // Take input details for new tri
     }
 
     public void editDeleteTriangleMenu(boolean deleteShape) {
         ArrayList<Triangle> triList = this.getTriangleList();
-        int shapeNum = 1;
         int selectedShape;
+        int shapeNum = 1; // Triangle counter
 
+        // Display each triangle's information
         for (Triangle tri : triList) {
             System.out.printf("Shape #%d - Triangle: xPos = %d, yPos = %d, tChar = %c\n", shapeNum, tri.getXPosition(),
                     tri.getYPosition(), tri.getPChar());
             shapeNum++;
         }
         if (deleteShape) {
+            // For delete tri menu
             System.out.println("Index of the shape to remove:");
         } else {
+            // For edit tri menu
             System.out.println("Index of the shape:");
         }
 
+        // Take user input selection of tri to alter
         selectedShape = Integer.parseInt(keyboard.nextLine()) - 1;
         if (selectedShape >= 0 && selectedShape <= triList.size())
             if (deleteShape) {
@@ -301,9 +306,9 @@ public class DrawingCanvas {
             } else {
                 // Edit triangle
                 Triangle tri = triList.get(selectedShape);
-                // tri.setRotationX90();
                 tri.triangleInputs(this, true);
             }
+        // Input error detection. Ensure index is in valid range.
         else if (selectedShape <= 0) {
             System.out.println("The shape index cannot be smaller than the number of shapes!");
         } else {

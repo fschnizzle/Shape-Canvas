@@ -11,9 +11,8 @@ public class DrawingTask {
         DrawingCanvas canvas = new DrawingCanvas(keyboard);
         do {
             // Prompt user for menu selection (1,2,3)
-            System.out.println("Please select an option. Type 3 to go back to the main menu.");
             System.out.println(
-                    "1. Start/edit your current canvas\n2. Share your current drawing\n3. Go back to the main menu");
+                    "Please select an option. Type 3 to go back to the main menu.\n1. Start/edit your current canvas\n2. Share your current drawing\n3. Go back to the main menu");
             selection = Integer.parseInt(keyboard.nextLine());
 
             // Handle Menu Selection
@@ -77,16 +76,18 @@ public class DrawingTask {
     }
 
     public static void checkResult(String sampleCanvas, String yourCanvas) {
-        boolean isMatch = true; // Assume true until proven false
+        boolean isMatch = true; // Assumes true until proven false
 
         // Compare each character in sampleCanvas against corresponding yourCanvas char
         for (int i = 0; i < sampleCanvas.length(); i++) {
             if (sampleCanvas.charAt(i) != yourCanvas.charAt(i)) {
+                // If a mismatch occurs then display failure statement and exit
                 isMatch = false;
                 System.out.println("Not quite! Please edit your canvas and check the result again.");
                 break;
             }
         }
+        // If no mismatches occur then display success statement
         if (isMatch) {
             System.out.println("You successfully complete the drawing task. Congratulations!!");
         }

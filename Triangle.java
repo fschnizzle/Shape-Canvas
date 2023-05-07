@@ -90,12 +90,21 @@ public class Triangle {
 
     // INIT TRI ARRAY
     public char[][] makeTriangleArray() {
+        // Retrieves sideLength
         int sideLength = this.getSideLength();
+
+        // Initialise 2D array of chars
         char[][] triangleArray = new char[sideLength][sideLength];
+
+        // Gets absolute value for rotateCase since it can be either neg or pos
         int rotateCase = (this.getRotationX90() < 0) ? -this.getRotationX90() : this.getRotationX90();
 
+        final int ROTATE_0_DEGREES = 0;
+        final int ROTATE_90_DEGREES = 1;
+        final int ROTATE_180_DEGREES = 2;
+        final int ROTATE_270_DEGREES = 3;
         switch (rotateCase % 4) {
-            case 0: // Case 0: No Rotation
+            case ROTATE_0_DEGREES: // Case 0: No Rotation
                 for (int y = 0; y < sideLength; y++) {
                     // printing character portion
                     for (int x = 0; x < sideLength - y; x++) {
@@ -108,7 +117,7 @@ public class Triangle {
                 }
                 break;
 
-            case 1: // Case 1: 90 degree rotation
+            case ROTATE_90_DEGREES: // Case 1: 90 degree rotation
                 for (int x = 0; x < sideLength; x++) {
                     // printing character portion
                     for (int y = 0; y < x; y++) {
@@ -121,7 +130,7 @@ public class Triangle {
                 }
                 break;
 
-            case 2: // Case 2: 180 degree rotation
+            case ROTATE_180_DEGREES: // Case 2: 180 degree rotation
                 for (int y = 0; y < sideLength; y++) {
                     // empty character portion
                     for (int x = 0; x < sideLength - y - 1; x++) {
@@ -133,7 +142,7 @@ public class Triangle {
                     }
                 }
                 break;
-            case 3: // Case 1: 270 degree rotation
+            case ROTATE_270_DEGREES: // Case 1: 270 degree rotation
                 for (int x = 0; x < sideLength; x++) {
                     // printing character portion
                     for (int y = 0; y <= x; y++) {
@@ -161,9 +170,14 @@ public class Triangle {
             System.out.println(
                     "Type R/L to rotate clockwise/anti-clockwise. Use other keys to go back to the Zooming/Moving/Rotating menu.");
             selection = keyboard.nextLine().toUpperCase();
+
+            // Perform +90 degree (R) or -90 degree (L) rotation
             if (selection.equals("R") || selection.equals("L")) {
+                // Increments or decrements depending on char given
                 this.setRotationX90(selection.charAt(0));
             }
+
+            // Exit when non-"L or R" input is given
         } while (selection.equals("R") || selection.equals("L"));
 
     }
@@ -269,10 +283,13 @@ public class Triangle {
         // Initialise starting coordinates
         int displaceX = 0;
         int displaceY = 0;
+
+        // If bypassInputs boolean (true) is given
+        // then skip to 'ZMR display / prompt loop'
         if (!bypassInputs) {
 
-            // Triangle Sidelength prompt / error detection do-while loop. Until valid input
-            // given
+            // Triangle Sidelength prompt / error detection do-while loop.
+            // Repeats Until valid input given
             do {
                 boolean isInvalidSideLength = true;
                 while (isInvalidSideLength) {
@@ -298,7 +315,7 @@ public class Triangle {
             this.setYPosition(displaceY);
         }
 
-        // Zoom and Move display / prompt loop
+        // Zoom, Move, Rotate display / prompt loop
         do {
             // Get initial coordinates
             displaceX = this.getXPosition();
